@@ -3,7 +3,7 @@ import { PLATFORM_NAME } from '../shared/platforms.js';
 import { esc, fmtPrice, fmtNum, icon, logo } from '../shared/ui.js';
 
 export function renderListing(listing, insights) {
-  const segs = Array.from({ length: 10 }, (_, i) => {
+  const segs = Array.from({ length: 5 }, (_, i) => {
     const fill = Math.max(0, Math.min(1, insights.score - i));
     return `<div class="seg" style="--fill:${fill * 100}%"></div>`;
   }).join('');
@@ -16,7 +16,7 @@ export function renderListing(listing, insights) {
     <div class="review">
       <div class="avatar a${i % 3}">${esc(r.initials)}</div>
       <div class="review-body">
-        <div class="review-head"><span class="strong">${esc(r.author)}</span><span class="chip-score">${r.score}/10</span><span class="muted ml-auto">${esc(r.ago)}</span></div>
+        <div class="review-head"><span class="strong">${esc(r.author)}</span><span class="chip-score">${r.stars} ★</span><span class="muted ml-auto">${esc(r.ago)}</span></div>
         <p>${esc(r.text)}</p>
         <div class="row gap6">
           <button class="pill-btn">${icon('thumbUp', 14)}Korisno · ${r.helpful}</button>
@@ -39,12 +39,12 @@ export function renderListing(listing, insights) {
       </div>
       <div>
         <div class="hero-sub">${esc(listing.title)} · ${esc(fmtPrice(listing.price))}</div>
-        <div class="row end gap8"><span class="score">${fmtNum(insights.score)}</span><span class="score-of">/10</span></div>
+        <div class="row end gap8"><span class="score">${fmtNum(insights.score)}</span>${icon('star', 38, 'score-star')}</div>
         <div class="hero-verdict">${esc(insights.verdict)} · bolji od ${insights.betterThanPct} % sličnih</div>
       </div>
       <div>
         <div class="segs">${segs}</div>
-        <div class="row between scale-labels"><span>1 · Loše</span><span>10 · Izvrsno</span></div>
+        <div class="row between scale-labels"><span>0 · Loše</span><span>5 · Izvrsno</span></div>
       </div>
       <div class="verified-box">
         ${icon(insights.shakerVerified ? 'shieldCheck' : 'shield', 20, insights.shakerVerified ? 'olive300' : 'muted-dark')}

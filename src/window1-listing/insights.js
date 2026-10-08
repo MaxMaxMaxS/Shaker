@@ -1,10 +1,10 @@
-// Window 1 · Shaker platform data for a listing: score 1–10, verification, reviews.
+// Window 1 · Vrijedi.Ly platform data for a listing: score 0–5 (shown with a star), verification, reviews.
 // Leonard's API doesn't exist yet, so this returns DEMO data in the shape we expect from
 // GET /listings/{platform}/{id}/insights (PROJECT_BRAIN.md §3.7). Everything has `demo: true`; the UI labels it.
 // Replace the body of getListingInsights with a fetch() once the endpoint is live.
 import { seeded, rng } from '../shared/seeded.js';
 
-// Generic enough to fit any item (phone, car, furniture…). score = the reviewer's 1–10 grade.
+// Generic enough to fit any item (phone, car, furniture…). score = the reviewer's 1–10 grade; shown as 1–5 stars.
 const REVIEW_POOL = [
   { author: 'Ana K.', score: 10, text: 'Sve točno kako piše u opisu. Preuzimanje bez problema, preporučujem.' },
   { author: 'Ivan P.', score: 8, text: 'Brzo odgovara. Cijena malo visoka, ali dalo se dogovoriti.' },
@@ -50,11 +50,12 @@ function pickReviews(key, score) {
   }
   const good = pool.filter((r) => r.score >= 8);
   const mixed = pool.filter((r) => r.score < 8);
-  const picks = score >= 8.5 ? [good[0], good[1], good[2]] : score >= 7 ? [good[0], mixed[0], good[1]] : [mixed[0], good[0], mixed[1]];
+  const picks = score >= 4.25 ? [good[0], good[1], good[2]] : score >= 3.5 ? [good[0], mixed[0], good[1]] : [mixed[0], good[0], mixed[1]];
   const agoStart = Math.floor(rand() * 3);
   return picks.map((r, i) => ({
     ...r,
     initials: initials(r.author),
+    stars: Math.max(1, Math.round(r.score / 2)), // 1–10 grade -> 1–5 stars
     ago: AGO[Math.min(AGO.length - 1, agoStart + i * 2 + Math.floor(rand() * 2))],
     helpful: Math.floor(rand() * 14) + (i === 0 ? 3 : 0),
   }));
@@ -64,12 +65,12 @@ function pickReviews(key, score) {
 export async function getListingInsights(listing) {
   const key = `${listing.platform}:${listing.listingId}`;
   const r = seeded(key);
-  const score = Math.round((6 + r * 3.4) * 10) / 10; // 6.0 – 9.4
+  const score = Math.round((3 + r * 1.7) * 10) / 10; // 3.0 – 4.7 on the 0–5 scale
   return {
     demo: true,
     score,
     betterThanPct: Math.round(40 + r * 55),
-    verdict: score >= 8 ? 'Odličan oglas' : score >= 7 ? 'Dobar oglas' : 'Prosječan oglas',
+    verdict: score >= 4 ? 'Odličan oglas' : score >= 3.5 ? 'Dobar oglas' : 'Prosječan oglas',
     shakerVerified: !!listing.seller.id && r > 0.35, // can't vouch for a seller we couldn't identify
     reviewCount: 3 + Math.round(r * 30),
     reviews: pickReviews(key, score),
