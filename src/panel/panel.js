@@ -11,10 +11,11 @@ import { renderPriceSheet, bindPriceChart } from '../window2-seller/price-chart.
 /**
  * @param {object} opts
  * @param {object} opts.listing         result of the window-1 scraper
- * @param {object} opts.listingInsights platform data for window 1
+ * @param {object} opts.listingInsights platform data for window 1 (replace it later with setListingInsights)
  * @param {() => Promise<{profile, insights}>} opts.loadSeller  lazy loader for window 2
+ * @param {(review: {stars: number, text: string}) => Promise<{ok: boolean, message: string}>} opts.onReview
  */
-export function mountPanel({ listing, listingInsights, loadSeller }) {
+export function mountPanel({ listing, listingInsights, loadSeller, onReview }) {
   document.getElementById('shaker-root')?.remove();
   const host = document.createElement('div');
   host.id = 'shaker-root';
@@ -41,6 +42,31 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
   let sellerRequested = false;
   let seller = null; // { profile, insights } once window 2 has loaded
   let chart = null; // { listing, history, rangeId, sheet } while the price chart is open
+  let insights = listingInsights;
+  let form = {}; // the review form: { stars, message, busy }
+
+  // Window 1 re-renders while the check runs and after a review; the comment being typed survives it.
+  const drawListing = () => {
+    const typed = root.getElementById('shk-comment')?.value ?? '';
+    track.children[0].outerHTML = renderListing(listing, insights, form);
+    const input = root.getElementById('shk-comment');
+    if (input && !input.disabled) input.value = typed;
+  };
+
+  const sendReview = async () => {
+    const text = root.getElementById('shk-comment')?.value.trim() ?? '';
+    if (form.busy || insights.state !== 'ready') return;
+    if (!form.stars || !text) {
+      form = { ...form, message: 'Odaberi zvjezdice i napiši par riječi.' };
+      return drawListing();
+    }
+    form = { ...form, busy: true, message: 'Šaljem…' };
+    drawListing();
+    const result = await onReview({ stars: form.stars, text });
+    form = result.ok ? { message: result.message } : { stars: form.stars, message: result.message };
+    if (result.ok) root.getElementById('shk-comment').value = '';
+    drawListing();
+  };
 
   const setX = (px, animate) => {
     track.style.transition = animate ? 'transform 280ms cubic-bezier(.2,.8,.2,1)' : 'none';
@@ -96,9 +122,14 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
 
   // Buttons (delegated, so window 2 works after it re-renders)
   panel.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-go], [data-close], [data-chart], [data-chart-close], [data-range]');
-    if (!t) return;
+    const t = e.target.closest('[data-go], [data-close], [data-chart], [data-chart-close], [data-range], [data-stars], [data-send]');
+    if (!t || t.disabled) return;
     if (t.hasAttribute('data-close')) host.remove();
+    else if (t.hasAttribute('data-stars')) {
+      form = { ...form, stars: +t.dataset.stars, message: '' };
+      drawListing();
+      root.querySelector(`[data-stars="${t.dataset.stars}"]`)?.focus();
+    } else if (t.hasAttribute('data-send')) sendReview();
     else if (t.hasAttribute('data-chart')) openChart(+t.dataset.chart);
     else if (t.hasAttribute('data-chart-close')) closeChart();
     else if (t.hasAttribute('data-range')) {
@@ -172,6 +203,7 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
   );
 
   panel.addEventListener('keydown', (e) => {
+    if (e.target.id === 'shk-comment' && e.key === 'Enter') return sendReview();
     if (e.target.closest('input')) return;
     if (e.key === 'Escape') return chart ? closeChart() : host.remove();
     if (chart) return; // the sheet is on top of window 2; arrows don't slide the panel underneath it
@@ -179,5 +211,13 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
     if (e.key === 'ArrowLeft') go(index - 1);
   });
 
-  return { go, destroy: () => host.remove() };
+  return {
+    go,
+    destroy: () => host.remove(),
+    /** New platform data for window 1 (the check finished, or a review was posted). */
+    setListingInsights: (next) => {
+      insights = next;
+      if (host.isConnected) drawListing();
+    },
+  };
 }

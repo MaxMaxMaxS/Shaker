@@ -1,79 +1,126 @@
-// Window 1 · Vrijedi.Ly platform data for a listing: score 0–5 (shown with a star), verification, reviews.
-// Leonard's API doesn't exist yet, so this returns DEMO data in the shape we expect from
-// GET /listings/{platform}/{id}/insights (PROJECT_BRAIN.md §3.7). Everything has `demo: true`; the UI labels it.
-// Replace the body of getListingInsights with a fetch() once the endpoint is live.
-import { seeded, rng } from '../shared/seeded.js';
+// Window 1 · Vrijedi.Ly platform data for a listing, from the web app's check (POST /api/extension/v1/checks).
+// Opening a listing reuses a check from the last 6 hours or starts one; while it runs we poll its progress.
+// The headline score is Ocjena ponude (0–100 → 0–5). When the platform has no score it says so: nothing here
+// falls back to a made-up number. Only what the platform doesn't compute at all stays DEMO and is labelled:
+// "bolji od X % sličnih" and the verified-seller box.
+import { seeded } from '../shared/seeded.js';
+import { callApi } from '../shared/api.js';
+import { API_BASE } from '../shared/config.js';
 
-// Generic enough to fit any item (phone, car, furniture…). score = the reviewer's 1–10 grade; shown as 1–5 stars.
-const REVIEW_POOL = [
-  { author: 'Ana K.', score: 10, text: 'Sve točno kako piše u opisu. Preuzimanje bez problema, preporučujem.' },
-  { author: 'Ivan P.', score: 8, text: 'Brzo odgovara. Cijena malo visoka, ali dalo se dogovoriti.' },
-  { author: 'Petra M.', score: 9, text: 'Dobro zapakirano i stiglo na vrijeme.' },
-  { author: 'Marko B.', score: 10, text: 'Korektan prodavač, sve dogovoreno u jednom danu. Svaka preporuka.' },
-  { author: 'Lucija T.', score: 7, text: 'Stvar je u redu, ali na slikama izgleda malo bolje nego uživo.' },
-  { author: 'Tomislav R.', score: 9, text: 'Pristojan i točan, došao je na dogovoreno mjesto čak i ranije.' },
-  { author: 'Maja Š.', score: 6, text: 'Trebalo mu je dva dana da odgovori, ali na kraju je sve prošlo OK.' },
-  { author: 'Dario V.', score: 10, text: 'Odlična komunikacija, poslao dodatne slike i video na zahtjev.' },
-  { author: 'Ivana L.', score: 8, text: 'Sve funkcionira. Sitna ogrebotina koju nije spomenuo, ali ništa strašno.' },
-  { author: 'Filip G.', score: 9, text: 'Fer cijena za ovo stanje. Kupio bih opet od njega.' },
-  { author: 'Nina H.', score: 5, text: 'Kasnio je na preuzimanje skoro sat vremena i nije se javio.' },
-  { author: 'Josip M.', score: 9, text: 'Poslao preko BoxNowa isti dan, paket uredno zapakiran.' },
-  { author: 'Karla D.', score: 10, text: 'Ugodan za dogovor, spustio cijenu bez puno natezanja.' },
-  { author: 'Luka Č.', score: 7, text: 'Opis je bio malo štur, ali na pitanja je odgovarao iskreno.' },
-  { author: 'Sara P.', score: 8, text: 'Sve kako je dogovoreno. Jedino je nedostajala originalna kutija.' },
-  { author: 'Antonio J.', score: 10, text: 'Najbolja kupovina na oglasniku dosad. Stanje kao novo.' },
-  { author: 'Martina K.', score: 6, text: 'Dva puta mijenjao termin preuzimanja, ali artikl je ispravan.' },
-  { author: 'Domagoj F.', score: 9, text: 'Dao mi je da sve isprobam prije plaćanja. Tako treba.' },
-  { author: 'Helena V.', score: 8, text: 'Brza razmjena poruka i jasni odgovori na sva pitanja.' },
-  { author: 'Matej S.', score: 4, text: 'Na kraju je tražio više nego što je pisalo u oglasu. Nismo se dogovorili.' },
-  { author: 'Iva R.', score: 10, text: 'Sve savršeno, uz artikl mi je dao i dodatnu opremu.' },
-  { author: 'Patrik Z.', score: 7, text: 'U redu kupnja. Treba ga malo požuriti s odgovorima.' },
-  { author: 'Ema B.', score: 9, text: 'Pouzdan prodavač, račun i jamstvo uredno predani.' },
-  { author: 'Krešimir N.', score: 8, text: 'Dobra cijena, malo truda oko dogovora termina.' },
-  { author: 'Tea M.', score: 10, text: 'Vrlo ljubazna, sve objasnila i pokazala kako radi.' },
-  { author: 'Hrvoje A.', score: 6, text: 'Stanje je lošije od „kao novo”, ali je spustio cijenu kad sam pokazao.' },
-  { author: 'Lana O.', score: 9, text: 'Uredno, čisto i točno na vrijeme. Preporuka.' },
-  { author: 'Bruno K.', score: 8, text: 'Sve OK, samo je dostava trajala dan duže od dogovorenog.' },
-  { author: 'Dora J.', score: 10, text: 'Iskren opis, pokazao i nedostatke prije nego što sam pitala.' },
-  { author: 'Nikola P.', score: 5, text: 'Prestao se javljati nakon što sam pitao za dodatne slike.' },
-];
-const AGO = ['danas', '1 d', '2 d', '4 d', '6 d', '1 tj.', '2 tj.', '3 tj.', '1 mj.', '2 mj.'];
-const initials = (name) => name.split(/\s+/).map((p) => p[0]).join('').slice(0, 2).toUpperCase();
+const POLL_MS = 1500;
+const GIVE_UP_MS = 4 * 60 * 1000; // a check normally takes well under a minute
 
-/** 3 reviews per listing, stable per listing, roughly matching its score (weaker listings get a critical one). */
-function pickReviews(key, score) {
-  const rand = rng(`reviews:${key}`);
-  const pool = [...REVIEW_POOL];
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(rand() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  const good = pool.filter((r) => r.score >= 8);
-  const mixed = pool.filter((r) => r.score < 8);
-  const picks = score >= 4.25 ? [good[0], good[1], good[2]] : score >= 3.5 ? [good[0], mixed[0], good[1]] : [mixed[0], good[0], mixed[1]];
-  const agoStart = Math.floor(rand() * 3);
-  return picks.map((r, i) => ({
-    ...r,
-    initials: initials(r.author),
-    stars: Math.max(1, Math.round(r.score / 2)), // 1–10 grade -> 1–5 stars
-    ago: AGO[Math.min(AGO.length - 1, agoStart + i * 2 + Math.floor(rand() * 2))],
-    helpful: Math.floor(rand() * 14) + (i === 0 ? 3 : 0),
-  }));
+const VERDICT_LABEL = {
+  great_price: 'Odlična cijena',
+  fair_price: 'Fer cijena',
+  room_to_haggle: 'Prostor za pregovor',
+  risk: 'Rizik',
+  no_data: 'Nema podataka o cijeni',
+};
+
+const initials = (name) => name.split(/\s+/).filter(Boolean).map((p) => p[0]).join('').slice(0, 2).toUpperCase() || '?';
+
+/** "danas", "3 d", "2 tj.", "4 mj." — like the demo reviews used to show. */
+function ago(iso, now = Date.now()) {
+  const days = Math.max(0, Math.floor((now - Date.parse(iso)) / 86_400_000));
+  if (days === 0) return 'danas';
+  if (days < 7) return `${days} d`;
+  if (days < 30) return `${Math.floor(days / 7)} tj.`;
+  if (days < 365) return `${Math.floor(days / 30)} mj.`;
+  return `${Math.floor(days / 365)} g.`;
 }
 
-/** GET /listings/{platform}/{id}/insights — window 1 */
-export async function getListingInsights(listing) {
-  const key = `${listing.platform}:${listing.listingId}`;
-  const r = seeded(key);
-  const score = Math.round((3 + r * 1.7) * 10) / 10; // 3.0 – 4.7 on the 0–5 scale
+/** What the platform doesn't compute yet: seeded per listing, always shown as demo. */
+function demoParts(listing) {
+  const r = seeded(`${listing.platform}:${listing.listingId}`);
   return {
-    demo: true,
-    score,
     betterThanPct: Math.round(40 + r * 55),
-    verdict: score >= 4 ? 'Odličan oglas' : score >= 3.5 ? 'Dobar oglas' : 'Prosječan oglas',
     shakerVerified: !!listing.seller.id && r > 0.35, // can't vouch for a seller we couldn't identify
-    reviewCount: 3 + Math.round(r * 30),
-    reviews: pickReviews(key, score),
   };
 }
 
+/** Before the API answered, and when it can't be reached. */
+export function pendingInsights(listing, state = 'checking', progress = null) {
+  return { state, progress, ...demoParts(listing), score: null, reviews: [], reviewCount: 0 };
+}
+
+/** The API's check (status, progress, report) → what window 1 renders. */
+export function toListingInsights(listing, check) {
+  const done = check.progress?.rows?.filter((row) => row.status !== 'queued' && row.status !== 'running').length ?? 0;
+  const progress = { done, total: check.progress?.rows?.length ?? 0 };
+  if (check.status !== 'completed' || !check.report) {
+    return { ...pendingInsights(listing, check.status === 'running' ? 'checking' : check.status, progress), checkId: check.checkId };
+  }
+  const { report } = check;
+  const offer = report.offerScore;
+  return {
+    state: 'ready',
+    checkId: check.checkId,
+    listingId: report.listing.id,
+    sellerId: report.seller?.sellerId ?? null,
+    reportUrl: `${API_BASE}/app/listing/${report.listing.id}`,
+    ...demoParts(listing),
+    // Ocjena ponude needs 5 reviews of the seller; until then there is no score, not a guessed one.
+    score: offer.kind === 'score' ? Math.round(offer.value / 2) / 10 : null,
+    verdict: VERDICT_LABEL[report.verdict] ?? VERDICT_LABEL.no_data,
+    reviewCount: report.seller?.reviewCount ?? 0,
+    reviews: report.reviews.map((r) => ({
+      author: r.reviewerName || 'Kupac',
+      initials: initials(r.reviewerName || 'Kupac'),
+      stars: r.stars,
+      ago: ago(r.createdAt, Date.parse(report.now)),
+      text: r.text,
+      helpful: r.helpfulCount,
+      reply: r.reply?.text ?? null,
+    })),
+  };
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Checks the listing and reports every state to `onUpdate` (checking → ready / failed / removed /
+ * unavailable). Resolves with the last one.
+ */
+export async function checkListing(listing, onUpdate) {
+  const emit = (insights) => (onUpdate(insights), insights);
+  try {
+    let res = await callApi('/api/extension/v1/checks', { method: 'POST', body: { url: listing.url } });
+    if (res.status === 422) return emit(pendingInsights(listing, 'unsupported'));
+    if (res.status !== 200 && res.status !== 202) return emit(pendingInsights(listing, 'unavailable'));
+    const started = Date.now();
+    let insights = emit(toListingInsights(listing, res.data));
+    while (insights.state === 'checking' && Date.now() - started < GIVE_UP_MS) {
+      await sleep(POLL_MS);
+      res = await callApi(`/api/extension/v1/checks/${res.data.checkId}`);
+      if (res.status !== 200) return emit(pendingInsights(listing, 'unavailable'));
+      insights = emit(toListingInsights(listing, res.data));
+    }
+    return insights.state === 'checking' ? emit(pendingInsights(listing, 'unavailable')) : insights;
+  } catch {
+    return emit(pendingInsights(listing, 'unavailable'));
+  }
+}
+
+/** The report again (after a review was posted), without starting anything. */
+export async function reloadListing(listing, checkId) {
+  const res = await callApi(`/api/extension/v1/checks/${checkId}`);
+  return res.status === 200 ? toListingInsights(listing, res.data) : null;
+}
+
+const REVIEW_ERRORS = {
+  already_reviewed: 'S ovog preglednika već si ocijenio ovog prodavača.',
+  no_seller: 'Ne znamo tko je prodavač, pa ga zasad ne možeš ocijeniti.',
+  invalid_request: 'Odaberi 1–5 zvjezdica i napiši par riječi.',
+};
+
+/** Posts an anonymous review of the listing's seller. Resolves with { ok, message }. */
+export async function postReview(listingId, stars, text) {
+  try {
+    const res = await callApi('/api/extension/v1/reviews', { method: 'POST', body: { listingId, stars, text } });
+    if (res.status === 201) return { ok: true, message: 'Hvala! Recenzija je objavljena.' };
+    return { ok: false, message: REVIEW_ERRORS[res.data?.error] || 'Recenzija nije spremljena. Pokušaj ponovo.' };
+  } catch {
+    return { ok: false, message: 'Vrijedi.Ly trenutno nije dostupan.' };
+  }
+}

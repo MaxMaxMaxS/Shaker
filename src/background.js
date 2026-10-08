@@ -3,6 +3,7 @@
 // old. Source is the Index Oglasi search API (JSON); Njuškalo answers scripted searches with a captcha,
 // and Facebook is never scraped in the background.
 import { DAY_MS, SCRAPE_EVERY_MS, PRODUCTS_KEY, histKey, matchesProduct, summarize } from './shared/price-watch.js';
+import { API_BASE } from './shared/config.js';
 
 const ALARM = 'price-watch';
 const CHECK_EVERY_MIN = 6 * 60; // wake every 6 h; a product is only scraped when it is due (2 days)
@@ -27,6 +28,41 @@ chrome.alarms.onAlarm.addListener((a) => {
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg?.type === 'pw:track' && Array.isArray(msg.products)) track(msg.products).then(scrapeDue);
 });
+
+// Calls to the Vrijedi.Ly API from content scripts: { type: 'api', path, method, body } -> { status, data }.
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg?.type !== 'api') return false;
+  callVrijediLy(msg).then(sendResponse);
+  return true; // answers asynchronously
+});
+
+const API_PREFIX = '/api/extension/v1/';
+
+/** A random ID made once per installation. Not an account: it only limits reviews to one per seller. */
+async function installId() {
+  const { installId: saved } = await chrome.storage.local.get('installId');
+  if (saved) return saved;
+  const id = crypto.randomUUID();
+  await chrome.storage.local.set({ installId: id });
+  return id;
+}
+
+async function callVrijediLy({ path, method = 'GET', body }) {
+  if (typeof path !== 'string' || !path.startsWith(API_PREFIX)) return { unreachable: 'Bad API path' };
+  try {
+    // Reviews carry the install ID; the content script never sees it.
+    const payload = path === `${API_PREFIX}reviews` ? { ...body, installId: await installId() } : body;
+    const res = await fetch(API_BASE + path, {
+      method,
+      headers: payload ? { 'content-type': 'application/json' } : undefined,
+      body: payload ? JSON.stringify(payload) : undefined,
+    });
+    const data = await res.json().catch(() => null);
+    return { status: res.status, data };
+  } catch (e) {
+    return { unreachable: String(e?.message || e) };
+  }
+}
 
 async function track(products) {
   const now = Date.now();

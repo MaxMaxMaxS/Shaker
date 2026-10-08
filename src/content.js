@@ -2,7 +2,7 @@
 // Window 2 is scraped lazily, the first time the user slides to it.
 import { detectPlatform } from './shared/platforms.js';
 import { scrapeListing } from './window1-listing/scrape.js';
-import { getListingInsights } from './window1-listing/insights.js';
+import { checkListing, pendingInsights, postReview, reloadListing } from './window1-listing/insights.js';
 import { scrapeSeller } from './window2-seller/scrape.js';
 import { getSellerInsights } from './window2-seller/insights.js';
 import { trackProducts } from './window2-seller/price-history.js';
@@ -34,9 +34,10 @@ async function run() {
   // The user may have moved on while we waited for the page to render; that page gets its own run.
   if (!listing?.listingId || location.href !== startedOn) return;
   loadFonts();
-  mountPanel({
+  let insights = pendingInsights(listing);
+  const panel = mountPanel({
     listing,
-    listingInsights: await getListingInsights(listing),
+    listingInsights: insights,
     loadSeller: async () => {
       const profile = await scrapeSeller(listing);
       // The listing being viewed leads the list, so even a seller with one ad has a price to chart.
@@ -47,7 +48,17 @@ async function run() {
       trackProducts(profile.listings.slice(0, 8));
       return { profile, insights: await getSellerInsights(profile) };
     },
+    onReview: async ({ stars, text }) => {
+      const result = await postReview(insights.listingId, stars, text);
+      if (result.ok) {
+        const fresh = await reloadListing(listing, insights.checkId).catch(() => null);
+        if (fresh) panel.setListingInsights((insights = fresh));
+      }
+      return result;
+    },
   });
+  // Opening a listing checks it: a check from the last 6 hours comes back at once, otherwise one starts.
+  checkListing(listing, (next) => panel.setListingInsights((insights = next)));
 }
 
 function tick() {

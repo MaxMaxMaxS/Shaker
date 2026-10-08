@@ -3,7 +3,7 @@
 Ocjena oglasa, provjera prodavača i pomoć pri pregovoru na **Njuškalu**, **Index oglasima** i **Facebook Marketplaceu**.
 Na stranici oglasa otvara se panel: **prozor 1** (oglas) → povuci ulijevo → **prozor 2** (prodavač).
 
-> Ocjena 1–10, recenzije, tržišne cijene i procjena prevare su zasad **demo podaci** — dolaze s Vrijedi.Ly platforme koja je u izradi.
+> Prozor 1 (ocjena ponude, presuda o cijeni, recenzije, objava recenzije) dolazi s Vrijedi.Ly platforme. Prozor 2, povijest cijena, „bolji od X % sličnih” i verifikacija prodavača su zasad **demo podaci**.
 
 ## Instalacija (za testere)
 
@@ -22,7 +22,10 @@ Facebook prikazuje prodavača samo prijavljenim korisnicima — bez prijave proz
 ```bash
 npm run build   # src/ → dist/  (dist/ se učitava kao "Load unpacked")
 npm run zip     # build + shaker-extension-v<verzija>.zip za slanje drugima
+API_BASE=https://… npm run build   # drugi API; zadano je http://localhost:3000 (lokalna web aplikacija)
 ```
+
+Ekstenzija zove Vrijedi.Ly API (`/api/extension/v1`, web aplikacija) preko service workera: on ima `host_permissions` za API (build ih dodaje u `dist/manifest.json`) i čuva `installId`, nasumični ID instalacije koji ograničava recenzije na jednu po prodavaču.
 
 Nema npm ovisnosti — samo Node 18+. Verzija se mijenja u `manifest.json`.
 
@@ -35,7 +38,7 @@ scripts/build.js           spaja src/ u dist/content.js i dist/background.js (pr
 
 src/
 ├── content.js             ulaz: prepozna oglas → prozor 1 → panel; prozor 2 tek kad ga korisnik otvori
-├── background.js          service worker: svaka 2 dana skuplja tržišne cijene pregledanih proizvoda (Index oglasi API)
+├── background.js          service worker: Vrijedi.Ly API pozivi + svaka 2 dana skuplja tržišne cijene (Index oglasi API)
 │
 ├── window1-listing/       PROZOR 1 · oglas (Figma "Oglas B")
 │   ├── scrapers/
@@ -43,7 +46,7 @@ src/
 │   │   ├── index-oglasi.js    isto za Index (React stranica, čeka render)
 │   │   └── facebook.js        isto za Facebook (ugrađeni Relay JSON)
 │   ├── scrape.js          scrapeListing() — bira scraper prema stranici
-│   ├── insights.js        getListingInsights() — ocjena 1–10, verifikacija, recenzije (DEMO)
+│   ├── insights.js        checkListing() — provjera oglasa na platformi (POST /checks + praćenje), recenzije
 │   └── view.js            renderListing() — HTML prozora 1
 │
 ├── window2-seller/        PROZOR 2 · prodavač (Figma "Popup G")
@@ -65,12 +68,14 @@ src/
     ├── platforms.js       detectPlatform(), nazivi platformi
     ├── utils.js           oblici rezultata, $/$$, parsiranje cijena i datuma, brisanje osobnih podataka
     ├── facebook-seller-dom.js  čitanje bloka "Podaci o prodavaču" na Facebooku
+    ├── api.js             callApi() — poziv Vrijedi.Ly API-ja preko service workera
+    ├── config.js          API_BASE (puni ga build)
     ├── ui.js              esc(), formatiranje, ikone, logo
     └── seeded.js          stabilni "random" za demo podatke
 ```
 
 **Dodavanje nove platforme:** dodaj je u `shared/platforms.js`, napiši `window1-listing/scrapers/<platforma>.js` i `window2-seller/scrapers/<platforma>.js`, i registriraj ih u oba `scrape.js`. Datoteke se spajaju u jedan scope, pa top-level imena moraju biti jedinstvena — build javlja ako nisu.
 
-**Kad Leonardov API bude gotov:** zamijeni tijela `getListingInsights` i `getSellerInsights` s `fetch()` pozivima; ostatak koda ne treba mijenjati.
+**API:** prozor 1 koristi Leonardov API (`POST /checks`, `GET /checks/{id}`, `POST /reviews`). `getSellerInsights` (prozor 2) ostaje demo dok platforma nema te podatke.
 
 Više o projektu: [PROJECT_BRAIN.md](PROJECT_BRAIN.md) · dizajn: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)

@@ -8,6 +8,8 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+// The Vrijedi.Ly API the extension talks to: `API_BASE=https://… npm run build`. Local web app by default.
+const API_BASE = (process.env.API_BASE || 'http://localhost:3000').replace(/\/+$/, '');
 const dist = join(root, 'dist');
 const IMPORT_RE = /^import[\s\S]*?from\s+['"]([^'"]+)['"];?\s*$/gm;
 
@@ -41,7 +43,8 @@ function bundle(entry) {
       return `// ---- ${relative(root, file)} ----\n${src}`;
     })
     .join('\n');
-  return { code: `(() => {\n'use strict';\n${body}\n})();\n`, files: ordered.length };
+  const code = `(() => {\n'use strict';\n${body}\n})();\n`.replaceAll("'__API_BASE__'", JSON.stringify(API_BASE));
+  return { code, files: ordered.length };
 }
 
 // content.js runs on listing pages (both windows); background.js collects market prices every 2 days.
@@ -51,9 +54,11 @@ const built = Object.fromEntries(Object.entries(ENTRIES).map(([out, entry]) => [
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, 'icons'), { recursive: true });
 for (const [out, { code }] of Object.entries(built)) writeFileSync(join(dist, out), code);
-copyFileSync(join(root, 'manifest.json'), join(dist, 'manifest.json'));
+const manifest = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));
+manifest.host_permissions = [...manifest.host_permissions, `${new URL(API_BASE).origin}/*`];
+writeFileSync(join(dist, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 for (const s of [16, 32, 48, 128]) copyFileSync(join(root, `icons/icon${s}.png`), join(dist, `icons/icon${s}.png`));
-console.log(`built dist/: ${Object.entries(built).map(([out, b]) => `${out} (${b.files} files)`).join(', ')}`);
+console.log(`built dist/ for ${API_BASE}: ${Object.entries(built).map(([out, b]) => `${out} (${b.files} files)`).join(', ')}`);
 
 if (process.argv.includes('--zip')) {
   const { version } = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));
