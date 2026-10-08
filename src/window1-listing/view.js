@@ -4,9 +4,13 @@ import { esc, fmtPrice, fmtNum, icon, logo } from '../shared/ui.js';
 
 // Five white stars that fill with yellow up to the score (a partial star for 4,2).
 const STAR_PTS = '12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2';
-const starRow = () => Array.from({ length: 5 }, () => `<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="${STAR_PTS}"/></svg>`).join('');
+const starSvg = () => `<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="${STAR_PTS}"/></svg>`;
+// Each star fills on its own, so 4,2 gives four full stars and a fifth that is 20 % yellow.
+// The star spans x 2–22 of its 24-unit box, so the fill is mapped onto that visible width.
+const starFill = (f) => (f <= 0 ? 0 : f >= 1 ? 100 : Math.round(((2 + f * 20) / 24) * 100));
 const starBar = (score) =>
-  `<span class="star-bar" role="img" aria-label="${fmtNum(score)} od 5 zvjezdica">${starRow()}<span class="star-bar-fill" style="width:${Math.round(Math.max(0, Math.min(100, (score / 5) * 100)))}%">${starRow()}</span></span>`;
+  `<span class="star-bar" role="img" aria-label="${fmtNum(score)} od 5 zvjezdica">${Array.from({ length: 5 }, (_, i) =>
+    `<span class="star">${starSvg()}<span class="star-fill" style="width:${starFill(Math.max(0, Math.min(1, score - i)))}%">${starSvg()}</span></span>`).join('')}</span>`;
 
 export function renderListing(listing, insights) {
   const segs = Array.from({ length: 5 }, (_, i) => {
