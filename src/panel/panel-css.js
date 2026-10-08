@@ -111,7 +111,7 @@ button { cursor: pointer; }
 .loading { margin: auto; color: var(--ink-500); font-size: 13px; }
 
 /* page dots */
-.dots { position: absolute; left: 50%; transform: translateX(-50%); bottom: 6px; display: flex; gap: 6px; pointer-events: none; }
-.dot { width: 6px; height: 6px; border-radius: 9999px; background: var(--ink-200); transition: width .2s; }
-.dot.on { width: 16px; background: var(--ink); }
+.dots { position: absolute; left: 50%; transform: translateX(-50%); bottom: 6px; display: flex; gap: 9px; pointer-events: none; }
+.dot { width: 9px; height: 9px; border-radius: 9999px; background: var(--ink-200); transition: width .2s; }
+.dot.on { width: 24px; background: var(--ink); }
 `;
