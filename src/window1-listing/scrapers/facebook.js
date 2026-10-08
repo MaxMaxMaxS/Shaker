@@ -3,7 +3,7 @@
 // Relay JSON that Facebook embeds in <script type="application/json">; seller data only exists there
 // (or in the DOM) when the user is logged in.
 import { emptyListing, $$, redactPII, uniq } from '../../shared/utils.js';
-import { pickDefined, readFacebookSellerFromPage, facebookProfileUrl } from '../../shared/facebook-seller-dom.js';
+import { pickDefined, readFacebookSellerFromPage, readFacebookSellerFromJson, facebookProfileUrl } from '../../shared/facebook-seller-dom.js';
 
 const LISTING_KEYS = [
   'marketplace_listing_title',
@@ -90,6 +90,7 @@ export function scrapeFacebook() {
     s.id = rs.id || null;
     s.name = rs.name || null;
   }
+  Object.assign(s, pickDefined(readFacebookSellerFromJson(), s));
   Object.assign(s, pickDefined(readFacebookSellerFromPage(), s));
   if (s.id) s.profileUrl = facebookProfileUrl(s.id);
   s.type = 'private';

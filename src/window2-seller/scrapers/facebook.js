@@ -2,11 +2,12 @@
 // the seller profile needs a login anyway). We only read what the item page already contains — when logged
 // in that includes the seller and "More from this seller"; when logged out the result is `limited`.
 import { emptySellerProfile, $$ } from '../../shared/utils.js';
-import { pickDefined, readFacebookSellerFromPage, facebookProfileUrl } from '../../shared/facebook-seller-dom.js';
+import { pickDefined, readFacebookSellerFromPage, readFacebookSellerFromJson, facebookProfileUrl } from '../../shared/facebook-seller-dom.js';
 
 export function scrapeFacebookSeller(listing) {
   const out = emptySellerProfile('facebook', listing.seller);
   // The seller block often renders after window 1 was built; read it again now.
+  Object.assign(out.seller, pickDefined(readFacebookSellerFromJson(), out.seller));
   Object.assign(out.seller, pickDefined(readFacebookSellerFromPage(), out.seller));
   if (out.seller.id) out.seller.profileUrl = facebookProfileUrl(out.seller.id);
   const sellerId = out.seller.id;
