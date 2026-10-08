@@ -39,8 +39,12 @@ async function run() {
     listingInsights: await getListingInsights(listing),
     loadSeller: async () => {
       const profile = await scrapeSeller(listing);
+      // The listing being viewed leads the list, so even a seller with one ad has a price to chart.
+      if (listing.price?.amount && !profile.listings.some((l) => l.id === listing.listingId)) {
+        profile.listings.unshift({ id: listing.listingId, title: listing.title, url: listing.url, price: listing.price, current: true });
+      }
       // Products seen in window 2 get their market price collected every 2 days (background.js).
-      trackProducts([listing, ...profile.listings.slice(0, 8)]);
+      trackProducts(profile.listings.slice(0, 8));
       return { profile, insights: await getSellerInsights(profile) };
     },
   });

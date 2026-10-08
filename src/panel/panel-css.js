@@ -106,6 +106,7 @@ button { cursor: pointer; }
 .listing-row:last-child { border-bottom: none; }
 .row-link { color: inherit; text-decoration: none; padding: 4px 0; }
 .row-link:hover .row-title { text-decoration: underline; }
+.this-ad { font-weight: 600; color: var(--ink-700); }
 /* The price + chip open the price chart. */
 .price-btn { display: grid; grid-template-columns: 64px 52px; align-items: center; gap: 8px; padding: 6px 6px 6px 4px; margin-right: -6px; border: none; border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: right; }
 button.price-btn .row-price { text-decoration: underline dotted var(--ink-400); text-underline-offset: 3px; }

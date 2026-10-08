@@ -29,6 +29,7 @@ export function renderSeller(profile, insights) {
     return `<span class="diff ${cls}">${d > 0 ? '+' : ''}${d} %</span>`;
   };
 
+  const others = profile.listings.filter((l) => !l.current);
   const rows = profile.listings.length
     ? profile.listings
         .slice(0, 8)
@@ -38,7 +39,7 @@ export function renderSeller(profile, insights) {
           const price = `<span class="row-price">${esc(fmtPrice(l.price))}</span>${diffChip(m?.diffPct)}`;
           return `
       <div class="listing-row">
-        <a class="row-link min0" href="${esc(l.url)}" target="_top"><div class="row-title">${esc(l.title || 'Oglas bez naslova')}</div><div class="muted small">tržište ${m ? esc(fmtPrice({ amount: m.marketPrice, currency: l.price?.currency })) : '—'}</div></a>
+        <a class="row-link min0" href="${esc(l.url)}" target="_top"><div class="row-title">${esc(l.title || 'Oglas bez naslova')}</div><div class="muted small">${l.current ? '<span class="this-ad">ovaj oglas</span> · ' : ''}tržište ${m ? esc(fmtPrice({ amount: m.marketPrice, currency: l.price?.currency })) : '—'}</div></a>
         ${
           m
             ? `<button class="price-btn" data-chart="${i}" title="Kretanje cijene na tržištu" aria-label="${esc(fmtPrice(l.price))}, prikaži kretanje cijene na tržištu">${price}</button>`
@@ -46,8 +47,11 @@ export function renderSeller(profile, insights) {
         }
       </div>`;
         })
-        .join('')
-    : profile.needsProfileVisit && s.profileUrl
+        .join('') + (others.length ? '' : emptyNote())
+    : emptyNote();
+
+  function emptyNote() {
+    return profile.needsProfileVisit && s.profileUrl
       ? `<div class="empty">${esc(platform)} ne prikazuje ostale oglase na stranici oglasa. Otvori profil prodavača — Vrijedi.Ly će zapamtiti njegove oglase i pokazati ih ovdje kad se vratiš.
           <a class="ghost-link" href="${esc(s.profileUrl)}" target="_top">Prikaži njegove oglase ${icon('chevronRight', 16)}</a></div>`
       : `<div class="empty">${
@@ -55,6 +59,7 @@ export function renderSeller(profile, insights) {
             ? `${esc(platform)} prikazuje prodavača i njegove oglase samo prijavljenim korisnicima.`
             : 'Prodavač trenutno nema drugih aktivnih oglasa.'
         }</div>`;
+  }
 
   return `
   <section class="slide light" aria-label="Prodavač">
