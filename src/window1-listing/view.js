@@ -2,6 +2,12 @@
 import { PLATFORM_NAME } from '../shared/platforms.js';
 import { esc, fmtPrice, fmtNum, icon, logo } from '../shared/ui.js';
 
+// Five white stars that fill with yellow up to the score (a partial star for 4,2).
+const STAR_PTS = '12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2';
+const starRow = () => Array.from({ length: 5 }, () => `<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="${STAR_PTS}"/></svg>`).join('');
+const starBar = (score) =>
+  `<span class="star-bar" role="img" aria-label="${fmtNum(score)} od 5 zvjezdica">${starRow()}<span class="star-bar-fill" style="width:${Math.max(0, Math.min(100, (score / 5) * 100))}%">${starRow()}</span></span>`;
+
 export function renderListing(listing, insights) {
   const segs = Array.from({ length: 5 }, (_, i) => {
     const fill = Math.max(0, Math.min(1, insights.score - i));
@@ -39,7 +45,7 @@ export function renderListing(listing, insights) {
       </div>
       <div>
         <div class="hero-sub">${esc(listing.title)} · ${esc(fmtPrice(listing.price))}</div>
-        <div class="row end gap8"><span class="score">${fmtNum(insights.score)}</span>${icon('star', 38, 'score-star')}</div>
+        <div class="row end gap6"><span class="score">${fmtNum(insights.score)}</span><span class="score-of">/5</span>${starBar(insights.score)}</div>
         <div class="hero-verdict">${esc(insights.verdict)} · bolji od ${insights.betterThanPct} % sličnih</div>
       </div>
       <div>

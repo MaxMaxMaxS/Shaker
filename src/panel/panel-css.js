@@ -48,8 +48,12 @@ button { cursor: pointer; }
 .ghost-pill:hover { background: var(--on-olive-empty); }
 .hero-sub { font-size: 13px; color: var(--on-olive-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
 .score { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; font-weight: 800; font-size: 80px; line-height: 80px; letter-spacing: -0.04em; color: #fff; }
-.score-star { color: var(--pollen-500); margin-bottom: 14px; flex-shrink: 0; }
-.score-star polygon { fill: #FFCF56; stroke: var(--ink); stroke-width: 1.2; }
+.score-of { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; font-weight: 700; font-size: 24px; line-height: 36px; color: var(--on-olive-muted); }
+.star-bar { position: relative; display: inline-flex; gap: 3px; margin: 0 0 13px 10px; }
+.star-bar svg { width: 22px; height: 22px; flex-shrink: 0; }
+.star-bar polygon { fill: #fff; stroke: #fff; stroke-width: 1.5; stroke-linejoin: round; }
+.star-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; overflow: hidden; display: inline-flex; gap: 3px; }
+.star-bar-fill polygon { fill: #FFCF56; stroke: #FFCF56; }
 .hero-verdict { font-size: 15px; font-weight: 600; padding-top: 4px; }
 .segs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding-right: 8px; }
 .seg { height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--ink) var(--fill), var(--on-olive-empty) var(--fill)); }
