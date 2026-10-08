@@ -82,14 +82,13 @@ button { cursor: pointer; }
 .footer input:focus { border-color: var(--olive); box-shadow: 0 0 0 3px rgba(166, 195, 111, .35); }
 .review-form { flex-direction: column; align-items: stretch; gap: 8px; padding-top: 10px; }
 .star-picker { gap: 2px; }
-.pick-star { width: 32px; height: 32px; border: none; background: transparent; border-radius: 8px; color: var(--ink-200); display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+.pick-star { width: 40px; height: 40px; border: none; background: transparent; border-radius: 8px; color: var(--ink-200); display: inline-flex; align-items: center; justify-content: center; padding: 0; }
 .pick-star.on { color: var(--pollen-500); }
 .pick-star:not(:disabled):hover { background: var(--ink-50); }
 .pick-star:disabled, .send-btn:disabled, .footer input:disabled { cursor: not-allowed; opacity: .55; }
 .form-message { font-size: 12px; color: var(--ink-600); text-align: right; padding-left: 8px; }
 .empty-score { color: var(--on-olive-muted); }
 .reply { padding: 8px 10px; border-radius: 10px; background: var(--ink-50); }
-.report-link { padding: 12px 0 0; }
 .send-btn { width: 48px; height: 48px; border: none; border-radius: 9999px; background: var(--olive); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
 /* window 2 */

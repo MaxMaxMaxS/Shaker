@@ -61,6 +61,7 @@ for (const s of [16, 32, 48, 128]) copyFileSync(join(root, `icons/icon${s}.png`)
 console.log(`built dist/ for ${API_BASE}: ${Object.entries(built).map(([out, b]) => `${out} (${b.files} files)`).join(', ')}`);
 
 if (process.argv.includes('--zip')) {
+  if (!process.env.API_BASE) console.warn(`warning: zipping a build for ${API_BASE}; set API_BASE for testers`);
   const { version } = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));
   const zipName = `shaker-extension-v${version}.zip`;
   rmSync(join(root, zipName), { force: true });

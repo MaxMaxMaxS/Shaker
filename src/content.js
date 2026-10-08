@@ -58,7 +58,7 @@ async function run() {
     },
   });
   // Opening a listing checks it: a check from the last 6 hours comes back at once, otherwise one starts.
-  checkListing(listing, (next) => panel.setListingInsights((insights = next)));
+  checkListing(listing, (next) => panel.setListingInsights((insights = next)), () => location.href === startedOn);
 }
 
 function tick() {

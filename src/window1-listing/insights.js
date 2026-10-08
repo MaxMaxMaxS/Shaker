@@ -5,7 +5,6 @@
 // "bolji od X % sličnih" and the verified-seller box.
 import { seeded } from '../shared/seeded.js';
 import { callApi } from '../shared/api.js';
-import { API_BASE } from '../shared/config.js';
 
 const POLL_MS = 1500;
 const GIVE_UP_MS = 4 * 60 * 1000; // a check normally takes well under a minute
@@ -15,7 +14,7 @@ const VERDICT_LABEL = {
   fair_price: 'Fer cijena',
   room_to_haggle: 'Prostor za pregovor',
   risk: 'Rizik',
-  no_data: 'Nema podataka o cijeni',
+  no_data: 'Nema podataka o cijeni', // the verdict alone; the web shows it next to the price
 };
 
 const initials = (name) => name.split(/\s+/).filter(Boolean).map((p) => p[0]).join('').slice(0, 2).toUpperCase() || '?';
@@ -58,7 +57,6 @@ export function toListingInsights(listing, check) {
     checkId: check.checkId,
     listingId: report.listing.id,
     sellerId: report.seller?.sellerId ?? null,
-    reportUrl: `${API_BASE}/app/listing/${report.listing.id}`,
     ...demoParts(listing),
     // Ocjena ponude needs 5 reviews of the seller; until then there is no score, not a guessed one.
     score: offer.kind === 'score' ? Math.round(offer.value / 2) / 10 : null,
@@ -80,9 +78,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
  * Checks the listing and reports every state to `onUpdate` (checking → ready / failed / removed /
- * unavailable). Resolves with the last one.
+ * unavailable). Stops polling once `isCurrent()` says the user moved on. Resolves with the last state.
  */
-export async function checkListing(listing, onUpdate) {
+export async function checkListing(listing, onUpdate, isCurrent = () => true) {
   const emit = (insights) => (onUpdate(insights), insights);
   try {
     let res = await callApi('/api/extension/v1/checks', { method: 'POST', body: { url: listing.url } });
@@ -92,6 +90,7 @@ export async function checkListing(listing, onUpdate) {
     let insights = emit(toListingInsights(listing, res.data));
     while (insights.state === 'checking' && Date.now() - started < GIVE_UP_MS) {
       await sleep(POLL_MS);
+      if (!isCurrent()) return insights;
       res = await callApi(`/api/extension/v1/checks/${res.data.checkId}`);
       if (res.status !== 200) return emit(pendingInsights(listing, 'unavailable'));
       insights = emit(toListingInsights(listing, res.data));

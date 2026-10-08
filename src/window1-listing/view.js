@@ -29,9 +29,10 @@ function heroScore(insights) {
       <div class="hero-verdict">${esc(STATE_TEXT[insights.state] || STATE_TEXT.unavailable)}${steps}</div>`;
   }
   const verdict = `${esc(insights.verdict)} · bolji od ${insights.betterThanPct} % sličnih`;
+  // No Ocjena ponude yet (it needs 5 reviews of the seller): unknown, never a zero.
   if (insights.score == null) {
-    return `<div class="row end gap6"><span class="score empty-score">—</span><span class="score-of">/5</span>${starBar(0)}</div>
-      <div class="hero-verdict">Još nemamo dovoljno podataka za ocjenu</div>
+    return `<div class="row end gap6"><span class="score empty-score" aria-label="Nema podataka">—</span></div>
+      <div class="hero-verdict">Nema podataka · ocjena treba barem 5 recenzija prodavača</div>
       <div class="hero-small">${verdict}</div>`;
   }
   return `<div class="row end gap6"><span class="score">${fmtNum(insights.score)}</span><span class="score-of">/5</span>${starBar(insights.score)}</div>
@@ -48,13 +49,10 @@ function reviewsBody(insights) {
     <div class="review">
       <div class="avatar a${i % 3}">${esc(r.initials)}</div>
       <div class="review-body">
-        <div class="review-head"><span class="strong">${esc(r.author)}</span><span class="chip-score">${r.stars} ★</span><span class="muted ml-auto">${esc(r.ago)}</span></div>
+        <div class="review-head"><span class="strong">${esc(r.author)}</span><span class="chip-score">${esc(r.stars)} ★</span><span class="muted ml-auto">${esc(r.ago)}</span></div>
         <p>${esc(r.text)}</p>
         ${r.reply ? `<p class="reply"><span class="strong">Prodavač:</span> ${esc(r.reply)}</p>` : ''}
-        <div class="row gap6">
-          <button class="pill-btn">${icon('thumbUp', 14)}Korisno · ${r.helpful}</button>
-          <button class="pill-btn icon-only" aria-label="Nije korisno">${icon('thumbDown', 14)}</button>
-        </div>
+        ${r.helpful ? `<div class="muted small">${icon('thumbUp', 14)} ${esc(r.helpful)} kupaca smatra ovo korisnim</div>` : ''}
       </div>
     </div>`
     )
@@ -63,13 +61,22 @@ function reviewsBody(insights) {
 
 /** @param {{ stars?: number, message?: string, busy?: boolean }} form  the review form's state */
 export function renderListing(listing, insights, form = {}) {
-  const segs = Array.from({ length: 5 }, (_, i) => {
-    const fill = Math.max(0, Math.min(1, (insights.score ?? 0) - i));
-    return `<div class="seg" style="--fill:${fill * 100}%"></div>`;
-  }).join('');
+  const segs = insights.score == null
+    ? ''
+    : Array.from({ length: 5 }, (_, i) => {
+        const fill = Math.max(0, Math.min(1, insights.score - i));
+        return `<div class="seg" style="--fill:${fill * 100}%"></div>`;
+      }).join('');
   const s = listing.seller;
   const platform = PLATFORM_NAME[listing.platform];
   const canReview = insights.state === 'ready' && !!insights.sellerId && !form.busy;
+  const placeholder = canReview
+    ? 'Podijeli svoje iskustvo…'
+    : insights.state === 'checking'
+      ? 'Recenzije su moguće kad provjera završi'
+      : insights.state === 'ready' && !insights.sellerId
+        ? 'Ne znamo tko je prodavač, pa ga ne možeš ocijeniti'
+        : 'Recenzije trenutno nisu moguće';
   const starPicker = Array.from({ length: 5 }, (_, i) => {
     const n = i + 1;
     return `<button class="pick-star${form.stars >= n ? ' on' : ''}" data-stars="${n}" aria-label="${n} od 5" aria-pressed="${form.stars === n}"${canReview ? '' : ' disabled'}>${icon('star', 20)}</button>`;
@@ -89,10 +96,10 @@ export function renderListing(listing, insights, form = {}) {
         <div class="hero-sub">${esc(listing.title)} · ${esc(fmtPrice(listing.price))}</div>
         ${heroScore(insights)}
       </div>
-      <div>
+      ${segs ? `<div>
         <div class="segs">${segs}</div>
         <div class="row between scale-labels"><span>0 · Loše</span><span>5 · Izvrsno</span></div>
-      </div>
+      </div>` : ''}
       <div class="verified-box">
         ${icon(insights.shakerVerified ? 'shieldCheck' : 'shield', 20, insights.shakerVerified ? 'olive300' : 'muted-dark')}
         <div>
@@ -104,10 +111,9 @@ export function renderListing(listing, insights, form = {}) {
 
     <div class="body">
       <div class="row between baseline section-head">
-        <span class="h2">Što kažu kupci</span><span class="muted">${insights.reviewCount} recenzija</span>
+        <span class="h2">Što kažu kupci</span><span class="muted">${esc(insights.reviewCount)} recenzija</span>
       </div>
       ${reviewsBody(insights)}
-      ${insights.reportUrl ? `<div class="report-link"><a class="ghost-link" href="${esc(insights.reportUrl)}" target="_blank" rel="noopener">Cijeli izvještaj ${icon('chevronRight', 16)}</a></div>` : ''}
       <div class="demo-note">„Bolji od X % sličnih” i verifikacija prodavača su demo podaci dok platforma ne bude spremna.</div>
     </div>
 
@@ -118,7 +124,7 @@ export function renderListing(listing, insights, form = {}) {
       </div>
       <div class="row gap8">
         <label class="sr-only" for="shk-comment">Tvoj komentar</label>
-        <input id="shk-comment" type="text" maxlength="2000" placeholder="${canReview ? 'Podijeli svoje iskustvo…' : 'Recenzije su moguće kad provjera završi'}"${canReview ? '' : ' disabled'}>
+        <input id="shk-comment" type="text" maxlength="2000" placeholder="${placeholder}"${canReview ? '' : ' disabled'}>
         <button class="send-btn" data-send aria-label="Pošalji recenziju"${canReview ? '' : ' disabled'}>${icon('send', 20)}</button>
       </div>
     </div>
