@@ -27,8 +27,10 @@ async function run() {
     document.getElementById('shaker-root')?.remove();
     return;
   }
+  const startedOn = location.href;
   const listing = await scrapeListing();
-  if (!listing?.listingId) return;
+  // The user may have moved on while we waited for the page to render; that page gets its own run.
+  if (!listing?.listingId || location.href !== startedOn) return;
   loadFonts();
   mountPanel({
     listing,

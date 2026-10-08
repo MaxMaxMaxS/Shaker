@@ -51,11 +51,12 @@ export const facebookProfileUrl = (id) => `https://www.facebook.com/marketplace/
  * join date, Marketplace verified badge and ratings. When the item was opened by clicking inside Facebook,
  * the data arrives by XHR instead and this returns nulls; the DOM reader above covers that case.
  */
-export function readFacebookSellerFromJson() {
+export function readFacebookSellerFromJson(itemId) {
   const found = { id: null, name: null, memberSince: null, platformVerified: null, platformRating: null, platformReviewCount: null, avatarUrl: null };
   let seller = null;
   for (const s of $$('script[type="application/json"]')) {
-    if (!s.textContent.includes('"marketplace_listing_seller":{')) continue;
+    // The embedded JSON stays from the first page load; after in-app navigation it describes an OLD item.
+    if (!itemId || !s.textContent.includes(itemId) || !s.textContent.includes('"marketplace_listing_seller":{')) continue;
     try {
       const stack = [JSON.parse(s.textContent)];
       while (stack.length && !seller) {

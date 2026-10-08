@@ -7,7 +7,7 @@ import { pickDefined, readFacebookSellerFromPage, readFacebookSellerFromJson, fa
 export function scrapeFacebookSeller(listing) {
   const out = emptySellerProfile('facebook', listing.seller);
   // The seller block often renders after window 1 was built; read it again now.
-  Object.assign(out.seller, pickDefined(readFacebookSellerFromJson(), out.seller));
+  Object.assign(out.seller, pickDefined(readFacebookSellerFromJson(listing.listingId), out.seller));
   Object.assign(out.seller, pickDefined(readFacebookSellerFromPage(), out.seller));
   if (out.seller.id) out.seller.profileUrl = facebookProfileUrl(out.seller.id);
   const sellerId = out.seller.id;

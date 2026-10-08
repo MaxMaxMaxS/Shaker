@@ -13,7 +13,7 @@
       "matches": [
         "https://www.njuskalo.hr/*",
         "https://www.index.hr/oglasi/*",
-        "https://www.facebook.com/marketplace/*"
+        "https://www.facebook.com/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle"
