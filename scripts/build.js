@@ -1,5 +1,6 @@
-// Minimal bundler. Content scripts can't use ES modules, so: follow the imports from src/content.js,
-// concatenate the files dependencies-first, strip import/export, wrap in an IIFE, write dist/.
+// Minimal bundler. Content scripts can't use ES modules, so: follow the imports from each entry
+// (src/content.js, src/background.js), concatenate the files dependencies-first, strip import/export,
+// wrap in an IIFE, write dist/.
 // Load dist/ via chrome://extensions → "Load unpacked". `node scripts/build.js --zip` also makes a zip.
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
 import { dirname, join, resolve, relative } from 'node:path';
@@ -10,42 +11,49 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 const IMPORT_RE = /^import[\s\S]*?from\s+['"]([^'"]+)['"];?\s*$/gm;
 
-// Dependencies-first order, starting from the entry file.
-const ordered = [];
-const visiting = new Set();
-(function visit(file) {
-  if (ordered.includes(file)) return;
-  if (visiting.has(file)) throw new Error(`Circular import: ${relative(root, file)}`);
-  visiting.add(file);
-  for (const [, spec] of readFileSync(file, 'utf8').matchAll(IMPORT_RE)) visit(resolve(dirname(file), spec));
-  visiting.delete(file);
-  ordered.push(file);
-})(join(root, 'src/content.js'));
+/** One script for one entry: its imports dependencies-first, import/export stripped, in an IIFE. */
+function bundle(entry) {
+  const ordered = [];
+  const visiting = new Set();
+  (function visit(file) {
+    if (ordered.includes(file)) return;
+    if (visiting.has(file)) throw new Error(`Circular import: ${relative(root, file)}`);
+    visiting.add(file);
+    for (const [, spec] of readFileSync(file, 'utf8').matchAll(IMPORT_RE)) visit(resolve(dirname(file), spec));
+    visiting.delete(file);
+    ordered.push(file);
+  })(join(root, entry));
 
-// Everything ends up in one scope, so two files must never declare the same top-level name.
-const owner = new Map();
-for (const file of ordered) {
-  for (const [, name] of readFileSync(file, 'utf8').matchAll(/^(?:export\s+)?(?:async\s+)?(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)/gm)) {
-    if (owner.has(name)) throw new Error(`"${name}" is declared in both ${owner.get(name)} and ${relative(root, file)} — rename one.`);
-    owner.set(name, relative(root, file));
+  // Everything ends up in one scope, so two files must never declare the same top-level name.
+  const owner = new Map();
+  for (const file of ordered) {
+    for (const [, name] of readFileSync(file, 'utf8').matchAll(/^(?:export\s+)?(?:async\s+)?(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)/gm)) {
+      if (owner.has(name)) throw new Error(`"${name}" is declared in both ${owner.get(name)} and ${relative(root, file)} — rename one.`);
+      owner.set(name, relative(root, file));
+    }
   }
+
+  const body = ordered
+    .map((file) => {
+      const src = readFileSync(file, 'utf8')
+        .replace(IMPORT_RE, '')
+        .replace(/^export\s+(?=(async\s+)?function|const|let|class)/gm, '');
+      return `// ---- ${relative(root, file)} ----\n${src}`;
+    })
+    .join('\n');
+  return { code: `(() => {\n'use strict';\n${body}\n})();\n`, files: ordered.length };
 }
 
-const body = ordered
-  .map((file) => {
-    const src = readFileSync(file, 'utf8')
-      .replace(IMPORT_RE, '')
-      .replace(/^export\s+(?=(async\s+)?function|const|let|class)/gm, '');
-    return `// ---- ${relative(root, file)} ----\n${src}`;
-  })
-  .join('\n');
+// content.js runs on listing pages (both windows); background.js collects market prices every 2 days.
+const ENTRIES = { 'content.js': 'src/content.js', 'background.js': 'src/background.js' };
+const built = Object.fromEntries(Object.entries(ENTRIES).map(([out, entry]) => [out, bundle(entry)]));
 
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, 'icons'), { recursive: true });
-writeFileSync(join(dist, 'content.js'), `(() => {\n'use strict';\n${body}\n})();\n`);
+for (const [out, { code }] of Object.entries(built)) writeFileSync(join(dist, out), code);
 copyFileSync(join(root, 'manifest.json'), join(dist, 'manifest.json'));
 for (const s of [16, 32, 48, 128]) copyFileSync(join(root, `icons/icon${s}.png`), join(dist, `icons/icon${s}.png`));
-console.log(`built dist/ from ${ordered.length} files`);
+console.log(`built dist/: ${Object.entries(built).map(([out, b]) => `${out} (${b.files} files)`).join(', ')}`);
 
 if (process.argv.includes('--zip')) {
   const { version } = JSON.parse(readFileSync(join(root, 'manifest.json'), 'utf8'));

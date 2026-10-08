@@ -19,7 +19,7 @@ button, input { font-family: inherit; }
 button { cursor: pointer; }
 .viewport { width: 100%; height: 100%; overflow: hidden; touch-action: pan-y; }
 .track { display: flex; height: 100%; will-change: transform; }
-.slide { flex: 0 0 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
+.slide { flex: 0 0 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; user-select: none; position: relative; }
 
 /* shared */
 .row { display: flex; align-items: center; }
@@ -102,9 +102,15 @@ button { cursor: pointer; }
 .stat-sub { font-size: 11px; color: var(--on-olive-muted); }
 .section-head.pad { padding-top: 16px; padding-bottom: 4px; }
 .listings { display: flex; flex-direction: column; padding: 0 16px; }
-.listing-row { display: grid; grid-template-columns: minmax(0, 1fr) 64px 52px; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--ink-100); color: inherit; text-decoration: none; }
+.listing-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px; padding: 5px 0; border-bottom: 1px solid var(--ink-100); }
 .listing-row:last-child { border-bottom: none; }
-.listing-row:hover .row-title { text-decoration: underline; }
+.row-link { color: inherit; text-decoration: none; padding: 4px 0; }
+.row-link:hover .row-title { text-decoration: underline; }
+/* The price + chip open the price chart. */
+.price-btn { display: grid; grid-template-columns: 64px 52px; align-items: center; gap: 8px; padding: 6px 6px 6px 4px; margin-right: -6px; border: none; border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: right; }
+button.price-btn .row-price { text-decoration: underline dotted var(--ink-400); text-underline-offset: 3px; }
+button.price-btn:hover { background: var(--ink-50); }
+button.price-btn:focus-visible, .range-tab:focus-visible, .chart-plot:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
 .row-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row-price { font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap; }
 .diff { font-size: 11px; font-weight: 600; text-align: center; padding: 3px 0; border-radius: 9999px; }
@@ -117,6 +123,44 @@ button { cursor: pointer; }
 .dashed-btn { width: 48px; height: 48px; border: 1.5px dashed var(--ink-400); border-radius: 9999px; background: #fff; color: var(--ink-700); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .primary-btn { flex-grow: 1; height: 48px; border: none; border-radius: 9999px; background: var(--olive); color: var(--ink); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .loading { margin: auto; color: var(--ink-500); font-size: 13px; }
+
+/* window 2 — price chart sheet */
+.sheet { position: absolute; inset: 0; z-index: 2; background: var(--paper); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 260ms cubic-bezier(.2,.8,.2,1); }
+.sheet.open { transform: none; }
+.chart-head { padding-top: 14px; padding-bottom: 12px; display: flex; flex-direction: column; gap: 2px; }
+.chart-title { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -0.01em;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.range-tabs { display: inline-grid; grid-template-columns: repeat(3, auto); gap: 2px; padding: 3px; border-radius: 9999px; background: var(--ink-50); }
+.range-tab { height: 32px; padding: 0 14px; border: none; border-radius: 9999px; background: transparent; color: var(--ink-600); font-size: 13px; font-weight: 600; }
+.range-tab:hover { color: var(--ink); }
+.range-tab.on { background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(26, 36, 16, .14); }
+.chart-now-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding-top: 14px; }
+.chart-now { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; font-weight: 800; font-size: 40px; line-height: 44px; letter-spacing: -0.03em; }
+.chart-delta { font-size: 13px; font-weight: 600; color: var(--ink-700); padding: 3px 10px; border-radius: 9999px; background: var(--ink-50); white-space: nowrap; }
+.chart-plot { position: relative; margin: 12px 16px 0; border-radius: 8px; touch-action: none; cursor: crosshair; outline: none; }
+.chart-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-plot .grid { stroke: var(--ink-100); stroke-width: 1; }
+.chart-plot .axis { font-size: 10px; fill: var(--ink-500); font-family: 'Inter', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.chart-plot .band { fill: var(--olive); opacity: .32; }
+.chart-plot .median { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart-plot .ref { stroke: var(--pollen-500); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.chart-plot .end-dot { fill: var(--ink); stroke: var(--paper); stroke-width: 2; }
+.chart-plot .cross-line { stroke: var(--ink-400); stroke-width: 1; }
+.chart-tip { position: absolute; top: 4px; display: flex; flex-direction: column; gap: 1px; padding: 8px 10px; border-radius: 10px; background: var(--paper); box-shadow: 0 4px 16px rgba(26, 36, 16, .16), 0 0 0 1px var(--ink-100); font-size: 11px; color: var(--ink-600); white-space: nowrap; pointer-events: none; }
+.chart-tip strong { font-size: 15px; color: var(--ink); }
+.chart-tip[hidden] { display: none; }
+.chart-key { display: flex; flex-wrap: wrap; gap: 6px 14px; padding-top: 10px; font-size: 11px; color: var(--ink-600); }
+.chart-key span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-key i { display: inline-block; width: 16px; }
+.key-line { height: 2px; border-radius: 1px; background: var(--ink); }
+.key-band { height: 10px; border-radius: 3px; background: var(--olive); opacity: .45; }
+.key-ref { height: 0; border-top: 1.5px dashed var(--pollen-500); }
+.chart-stats { margin: 14px 12px 0; padding: 12px 14px; border-radius: 16px; background: var(--ink-50); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.chart-stats > div { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.chart-stats .bl { padding-left: 12px; border-left: 1px solid var(--ink-100); }
+.chart-stats .stat-label { color: var(--ink-500); }
+.chart-stat { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.01em; white-space: nowrap; }
+.empty.pad { padding-left: 16px; padding-right: 16px; }
 
 /* page dots */
 .dots { position: absolute; left: 50%; transform: translateX(-50%); bottom: 6px; display: flex; gap: 9px; pointer-events: none; }

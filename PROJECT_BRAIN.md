@@ -147,6 +147,7 @@ Rule: **never depend on CSS class names on Facebook.** Use ARIA roles, `aria-lab
 | `POST /proofs` | Upload proof → returns id; platform verifies and deletes |
 | `GET /listings/tips` | P4 suggestions for user's own draft listing |
 | `GET /config/selectors` | Remote selector overrides per site |
+| `GET /products/price-history?q=` | Market price snapshots for a product (median, middle 50 %, count), every 2 days — today collected by the extension itself (`src/background.js`) |
 
 ---
 
@@ -219,6 +220,7 @@ Rule: **never depend on CSS class names on Facebook.** Use ARIA roles, `aria-lab
 | 2026-10-08 | Vinted dropped — supported platforms are Njuškalo, Index Oglasi and Facebook Marketplace only | Max's decision |
 | 2026-10-08 | Product renamed to **Vrijedi.Ly** (was Shaker). Visible names changed in the extension, README and landing; internal ids (`shaker-root`, repo/folder names) unchanged | Max's decision |
 | 2026-10-08 | Window 2 primary button renamed from "Analiziraj poruke" to "Provjeri autentičnost" (extension, landing page, mockups) | Max |
+| 2026-10-08 | Window 2: clicking a price in "Njegovi oglasi" opens a market price chart (1 / 3 / 6+ months; median, middle 50 % band, this listing's price). Prices are collected every 2 days by the extension's background service worker from the Index Oglasi search API, for products the user has seen in window 2; until a product has 4+ snapshots the chart shows a seeded demo history. Njuškalo is not scraped in the background (scripted searches get a captcha), Facebook never | Max asked for it. This is background crawling, which §3.5 calls the riskier line: it should move to Leonard's platform (`GET /products/price-history`) so one server collects once for everyone |
 
 ---
 

@@ -5,6 +5,7 @@ import { scrapeListing } from './window1-listing/scrape.js';
 import { getListingInsights } from './window1-listing/insights.js';
 import { scrapeSeller } from './window2-seller/scrape.js';
 import { getSellerInsights } from './window2-seller/insights.js';
+import { trackProducts } from './window2-seller/price-history.js';
 import { captureFacebookProfileListings } from './window2-seller/facebook-seller-cache.js';
 import { mountPanel } from './panel/panel.js';
 
@@ -38,6 +39,8 @@ async function run() {
     listingInsights: await getListingInsights(listing),
     loadSeller: async () => {
       const profile = await scrapeSeller(listing);
+      // Products seen in window 2 get their market price collected every 2 days (background.js).
+      trackProducts([listing, ...profile.listings.slice(0, 8)]);
       return { profile, insights: await getSellerInsights(profile) };
     },
   });

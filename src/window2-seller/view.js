@@ -34,12 +34,17 @@ export function renderSeller(profile, insights) {
         .slice(0, 8)
         .map((l, i) => {
           const m = insights?.perListing[i];
+          // The title opens the listing; the price opens the market price chart for that product.
+          const price = `<span class="row-price">${esc(fmtPrice(l.price))}</span>${diffChip(m?.diffPct)}`;
           return `
-      <a class="listing-row" href="${esc(l.url)}" target="_top">
-        <div class="min0"><div class="row-title">${esc(l.title || 'Oglas bez naslova')}</div><div class="muted small">tržište ${m ? esc(fmtPrice({ amount: m.marketPrice, currency: l.price?.currency })) : '—'}</div></div>
-        <span class="row-price">${esc(fmtPrice(l.price))}</span>
-        ${diffChip(m?.diffPct)}
-      </a>`;
+      <div class="listing-row">
+        <a class="row-link min0" href="${esc(l.url)}" target="_top"><div class="row-title">${esc(l.title || 'Oglas bez naslova')}</div><div class="muted small">tržište ${m ? esc(fmtPrice({ amount: m.marketPrice, currency: l.price?.currency })) : '—'}</div></a>
+        ${
+          m
+            ? `<button class="price-btn" data-chart="${i}" title="Kretanje cijene na tržištu" aria-label="${esc(fmtPrice(l.price))}, prikaži kretanje cijene na tržištu">${price}</button>`
+            : `<span class="price-btn static">${price}</span>`
+        }
+      </div>`;
         })
         .join('')
     : profile.needsProfileVisit && s.profileUrl
@@ -87,7 +92,7 @@ export function renderSeller(profile, insights) {
       </div>
 
       <div class="row between baseline section-head pad">
-        <span class="h3">Njegovi oglasi</span><span class="muted small">cijena · tržište</span>
+        <span class="h3">Njegovi oglasi</span><span class="muted small">klikni cijenu za graf</span>
       </div>
       <div class="listings">${rows}</div>
       ${insights?.demo ? '<div class="demo-note pad">Tržišne cijene i procjena prevare su demo podaci.</div>' : ''}

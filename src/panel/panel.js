@@ -4,6 +4,8 @@
 import { PANEL_CSS } from './panel-css.js';
 import { renderListing } from '../window1-listing/view.js';
 import { renderSeller, renderSellerLoading } from '../window2-seller/view.js';
+import { loadPriceHistory } from '../window2-seller/price-history.js';
+import { renderPriceSheet, bindPriceChart } from '../window2-seller/price-chart.js';
 
 
 /**
@@ -37,6 +39,8 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
   const dots = root.querySelectorAll('.dot');
   let index = 0;
   let sellerRequested = false;
+  let seller = null; // { profile, insights } once window 2 has loaded
+  let chart = null; // { listing, history, rangeId, sheet } while the price chart is open
 
   const setX = (px, animate) => {
     track.style.transition = animate ? 'transform 280ms cubic-bezier(.2,.8,.2,1)' : 'none';
@@ -51,6 +55,7 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
       sellerRequested = true;
       loadSeller()
         .then(({ profile, insights }) => {
+          seller = { profile, insights };
           track.children[1].outerHTML = renderSeller(profile, insights);
         })
         .catch(() => {
@@ -59,19 +64,56 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
     }
   };
 
+  // Price chart: a sheet over window 2 for one of the seller's listings (click on its price).
+  const drawChart = (rangeId) => {
+    chart.rangeId = rangeId;
+    chart.sheet.innerHTML = renderPriceSheet(chart);
+    bindPriceChart(chart.sheet, chart.history, rangeId, chart.listing.price?.amount || null);
+  };
+  const openChart = async (i) => {
+    const listing = seller?.profile.listings[i];
+    if (!listing) return;
+    const slide = track.children[1];
+    const sheet = slide.querySelector('.sheet') || slide.appendChild(document.createElement('div'));
+    sheet.className = 'sheet';
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-label', 'Kretanje cijene');
+    sheet.innerHTML = '<div class="loading">Učitavam cijene…</div>';
+    requestAnimationFrame(() => sheet.classList.add('open'));
+    const history = await loadPriceHistory(listing, seller.insights?.perListing[i]?.marketPrice);
+    chart = { listing, history, rangeId: '90', sheet, from: i };
+    drawChart('90');
+    sheet.querySelector('[data-chart-close]')?.focus();
+  };
+  const closeChart = () => {
+    if (!chart) return;
+    const { sheet, from } = chart;
+    chart = null;
+    sheet.classList.remove('open');
+    setTimeout(() => sheet.remove(), 300);
+    track.children[1].querySelector(`[data-chart="${from}"]`)?.focus();
+  };
+
   // Buttons (delegated, so window 2 works after it re-renders)
   panel.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-go], [data-close]');
+    const t = e.target.closest('[data-go], [data-close], [data-chart], [data-chart-close], [data-range]');
     if (!t) return;
     if (t.hasAttribute('data-close')) host.remove();
-    else go(+t.dataset.go);
+    else if (t.hasAttribute('data-chart')) openChart(+t.dataset.chart);
+    else if (t.hasAttribute('data-chart-close')) closeChart();
+    else if (t.hasAttribute('data-range')) {
+      if (!chart) return;
+      drawChart(t.dataset.range);
+      chart.sheet.querySelector(`[data-range="${t.dataset.range}"]`)?.focus();
+    } else go(+t.dataset.go);
   });
 
   // Drag / swipe: pull left to reach window 2, right to go back. Only claims the pointer once the
   // gesture is clearly horizontal, so taps on buttons and vertical scrolling still work.
   let startX = null, startY = 0, dx = 0, dragging = false;
   viewport.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0 || e.target.closest('input, textarea')) return;
+    // The chart sheet keeps its pointer: dragging across the plot moves the crosshair.
+    if (e.button !== 0 || e.target.closest('input, textarea, .sheet')) return;
     startX = e.clientX;
     startY = e.clientY;
     dx = 0;
@@ -115,7 +157,7 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
   viewport.addEventListener(
     'wheel',
     (e) => {
-      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) || e.target.closest('.sheet')) return;
       e.preventDefault();
       if (wheelLock) return;
       wheelAcc += e.deltaX;
@@ -131,9 +173,10 @@ export function mountPanel({ listing, listingInsights, loadSeller }) {
 
   panel.addEventListener('keydown', (e) => {
     if (e.target.closest('input')) return;
+    if (e.key === 'Escape') return chart ? closeChart() : host.remove();
+    if (chart) return; // the sheet is on top of window 2; arrows don't slide the panel underneath it
     if (e.key === 'ArrowRight') go(index + 1);
     if (e.key === 'ArrowLeft') go(index - 1);
-    if (e.key === 'Escape') host.remove();
   });
 
   return { go, destroy: () => host.remove() };

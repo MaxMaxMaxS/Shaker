@@ -31,10 +31,11 @@ Nema npm ovisnosti — samo Node 18+. Verzija se mijenja u `manifest.json`.
 ```
 manifest.json              Chrome MV3 manifest (stranice na kojima radi, ikone)
 icons/                     logo (icon.svg) + PNG 16/32/48/128
-scripts/build.js           spaja src/ u dist/content.js (prati importe, provjerava sudare imena)
+scripts/build.js           spaja src/ u dist/content.js i dist/background.js (prati importe, provjerava sudare imena)
 
 src/
 ├── content.js             ulaz: prepozna oglas → prozor 1 → panel; prozor 2 tek kad ga korisnik otvori
+├── background.js          service worker: svaka 2 dana skuplja tržišne cijene pregledanih proizvoda (Index oglasi API)
 │
 ├── window1-listing/       PROZOR 1 · oglas (Figma "Oglas B")
 │   ├── scrapers/
@@ -51,7 +52,9 @@ src/
 │   │   ├── index-oglasi.js    Indexov JSON API: korisnik, ocjene, svi oglasi
 │   │   └── facebook.js        samo ono što je već na stranici (bez dodatnih zahtjeva)
 │   ├── scrape.js          scrapeSeller(listing)
-│   ├── insights.js        getSellerInsights() — cijene vs. tržište, prevara, odgovaranje (DEMO)
+│   ├── insights.js        getSellerInsights() — cijene vs. tržište (prave kad ih ima), prevara, odgovaranje (DEMO)
+│   ├── price-history.js   povijest cijena proizvoda: prave snimke iz background.js ili DEMO krivulja
+│   ├── price-chart.js     graf kretanja cijene (klik na cijenu u "Njegovi oglasi"): 1 / 3 / 6+ mj
 │   └── view.js            renderSeller() / renderSellerLoading() — HTML prozora 2
 │
 ├── panel/
