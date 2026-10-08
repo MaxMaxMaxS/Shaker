@@ -218,6 +218,7 @@ Rule: **never depend on CSS class names on Facebook.** Use ARIA roles, `aria-lab
 | 2026-10-08 | Logo = variant 01 "Klasik, ink + pollen" (magnifier with pollen star). Source `icons/icon.svg`, PNGs 16/32/48/128 | Chosen by Max from 25 variants |
 | 2026-10-08 | Vinted dropped — supported platforms are Njuškalo, Index Oglasi and Facebook Marketplace only | Max's decision |
 | 2026-10-08 | Product renamed to **Vrijedi.Ly** (was Shaker). Visible names changed in the extension, README and landing; internal ids (`shaker-root`, repo/folder names) unchanged | Max's decision |
+| 2026-10-08 | Window 2 primary button renamed from "Analiziraj poruke" to "Provjeri autentičnost" (extension, landing page, mockups) | Max |
 
 ---
 

@@ -95,7 +95,7 @@ export function renderSeller(profile, insights) {
 
     <div class="footer light">
       <button class="dashed-btn" aria-label="Učitaj snimku razgovora">${icon('image', 18)}</button>
-      <button class="primary-btn">${icon('searchStar', 18)}<span>Analiziraj poruke</span></button>
+      <button class="primary-btn">${icon('searchStar', 18)}<span>Provjeri autentičnost</span></button>
     </div>
   </section>`;
 }
