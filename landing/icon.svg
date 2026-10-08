@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="128" height="128">
+  <!-- Shaker logo, variant 01 "Klasik, ink + pollen": magnifier with a star in the lens -->
+  <circle cx="10.5" cy="10.5" r="7" fill="#FFFFFF" stroke="#1A2410" stroke-width="2.6"/>
+  <path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"/>
+  <polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56" stroke="#FFCF56" stroke-width="1" stroke-linejoin="round"/>
+</svg>

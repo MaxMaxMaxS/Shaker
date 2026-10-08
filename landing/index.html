@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vrijedi.Ly · Je li ovaj oglas dobar?</title>
+<meta name="description" content="Vrijedi.Ly ocjenjuje oglase, provjerava prodavače i cijene na Njuškalu, Index oglasima i Facebook Marketplaceu.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #FFFFFF; }
+/* The background line drawings sit beside the 1200px column; on narrow screens they would cover the text. */
+@media (max-width: 1100px) {
+  section > svg[aria-hidden="true"] { display: none; }
+}
+@media (max-width: 640px) {
+  header > nav { display: none !important; }
+  section { padding-left: 16px !important; padding-right: 16px !important; }
+  section > div[style*="border-radius: 32px"] { padding: 32px 16px !important; }
+}
+</style>
+</head>
+<body>
+<div style="width: 100%; background: #FFFFFF; color: #1A2410; font-family: 'Inter', sans-serif; overflow-x: hidden; letter-spacing: -0.005em">
+
+<svg width="0" height="0" aria-hidden="true" style="position: absolute">
+  <defs>
+    <filter id="shk-rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" scale="5"></feDisplacementMap>
+    </filter>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<header style="max-width: 1200px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+  <a href="#" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: #1A2410">
+    <span style="width: 30px; height: 30px; border-radius: 8px; background: #FFFFFF; box-shadow: inset 0 0 0 1px #E4E8DC; display: flex; align-items: center; justify-content: center">
+      <svg width="23" height="23" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" fill="#fff" stroke="#1A2410" stroke-width="2.6"></circle><path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"></path><polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56" stroke="#FFCF56" stroke-width="1" stroke-linejoin="round"></polygon></svg>
+    </span>
+    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em">Vrijedi.Ly</span>
+  </a>
+  <nav style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 16px; font-weight: 500">
+    <a href="#kako" style="color: #343D2C; text-decoration: none">Kako radi</a>
+    <a href="#pitanja" style="color: #343D2C; text-decoration: none">Šest pitanja</a>
+    <a href="#prodavaci" style="color: #343D2C; text-decoration: none">Za prodavače</a>
+  </nav>
+  <a href="#" style="height: 40px; padding: 0 18px; border-radius: 9999px; background: #F1F3EC; color: #1A2410; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center">Dodaj u Chrome</a>
+</header>
+
+<!-- HERO -->
+<section style="position: relative; overflow: hidden; padding: 56px 24px 96px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% - 600px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <circle cx="85" cy="85" r="55"></circle><path d="M125 125 L178 178"></path>
+      <polygon points="85,57 92.1,75.3 111.6,76.3 96.4,88.7 101.5,107.7 85,97 68.5,107.7 73.6,88.7 58.4,76.3 77.9,75.3"></polygon>
+      <path d="M168 26 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 z"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+    <div style="flex: 1 1 440px; min-width: 0; max-width: 560px; display: flex; flex-direction: column; gap: 22px">
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(44px, 6.11vw, 88px); line-height: 0.98; letter-spacing: -0.035em">Je li ovaj oglas dobar?</h1>
+      <p style="margin: 0; font-size: 21px; line-height: 1.55; color: #4D5645">Cijena prenapuhana? Prodavač pouzdan? Link za dostavu lažan? Vrijedi.Ly ti kaže na samom oglasu — prije nego platiš.</p>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+        <a href="#" style="height: 52px; padding: 0 26px; border-radius: 9999px; background: #A6C36F; color: #1A2410; font-size: 17px; font-weight: 600; text-decoration: none; display: flex; align-items: center">Dodaj u Chrome — besplatno</a>
+        <a href="#kako" style="color: #1A2410; font-size: 17px; font-weight: 600; text-decoration: none">Kako radi</a>
+      </div>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Radi na Njuškalu, Index oglasima i Facebook Marketplaceu. Bez registracije.</p>
+    </div>
+
+    <div style="flex: 1 1 560px; min-width: 0">
+      <div style="background: #FFFFFF; border-radius: 18px; border: 1px solid #E4E8DC; box-shadow: 0 2px 6px rgba(26,36,16,.06), 0 24px 60px rgba(26,36,16,.12); overflow: hidden">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #F6F6F1; border-bottom: 1px solid #E4E8DC">
+          <div style="display: flex; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 9999px; background: #CFD5C4"></span><span style="width: 10px; height: 10px; border-radius: 9999px; background: #CFD5C4"></span><span style="width: 10px; height: 10px; border-radius: 9999px; background: #CFD5C4"></span></div>
+          <div style="flex-grow: 1; height: 28px; border-radius: 9999px; background: #FFFFFF; font-size: 12px; color: #6B7462; display: flex; align-items: center; padding: 0 14px; white-space: nowrap; overflow: hidden">njuskalo.hr/mobiteli/iphone-14-pro-128gb-deep-purple-oglas</div>
+          <span style="width: 26px; height: 26px; border-radius: 7px; background: #FFFFFF; box-shadow: inset 0 0 0 1.5px #A6C36F; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" fill="#fff" stroke="#1A2410" stroke-width="2.6"></circle><path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"></path><polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56"></polygon></svg></span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; background: #FBFBF8">
+          <div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+            <div style="height: 230px; border-radius: 12px; background: #F2C9A8; display: flex; align-items: center; justify-content: center">
+              <svg width="150" height="150" viewBox="0 0 100 100" aria-hidden="true"><rect x="16" y="10" width="72" height="84" rx="14" fill="#6B7462"></rect><rect x="22" y="16" width="38" height="38" rx="10" fill="#4D5645"></rect><circle cx="33" cy="27" r="7" fill="#26301E"></circle><circle cx="49" cy="27" r="7" fill="#26301E"></circle><circle cx="33" cy="43" r="7" fill="#26301E"></circle><circle cx="50" cy="44" r="3" fill="#CFD5C4"></circle></svg>
+            </div>
+            <div style="display: flex; gap: 8px"><span style="flex: 1; height: 40px; border-radius: 8px; background: #EBD3BF"></span><span style="flex: 1; height: 40px; border-radius: 8px; background: #E4E8DC"></span><span style="flex: 1; height: 40px; border-radius: 8px; background: #EBD3BF"></span></div>
+            <div style="font-size: 17px; font-weight: 600; line-height: 1.35; padding-top: 4px">iPhone 14 Pro, 128 GB, Deep Purple — kao nov</div>
+            <div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px">720 €</div>
+            <div style="font-size: 13px; color: #6B7462">Zagreb, Trešnjevka · prije 2 dana</div>
+            <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 6px"><span style="height: 8px; border-radius: 4px; background: #E4E8DC; width: 92%"></span><span style="height: 8px; border-radius: 4px; background: #E4E8DC; width: 80%"></span><span style="height: 8px; border-radius: 4px; background: #E4E8DC; width: 64%"></span></div>
+          </div>
+
+          <div style="flex: 0 1 290px; min-width: 260px; border-radius: 16px; overflow: hidden; background: #FFFFFF; box-shadow: 0 2px 6px rgba(26,36,16,.10), 0 18px 40px rgba(26,36,16,.18)">
+            <div style="background: #A6C36F; color: #1A2410; padding: 12px 14px 18px 16px; display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; align-items: center; justify-content: space-between">
+                <div style="display: flex; align-items: center; gap: 7px"><span style="width: 24px; height: 24px; border-radius: 7px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" fill="#fff" stroke="#1A2410" stroke-width="2.6"></circle><path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"></path><polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56"></polygon></svg></span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 15px">Vrijedi.Ly</span></div>
+                <span style="font-size: 11px; font-weight: 600; border: 1px solid rgba(26,36,16,.25); border-radius: 9999px; padding: 4px 10px">Prodavač ›</span>
+              </div>
+              <div>
+                <div style="font-size: 11px; color: #2A3618">iPhone 14 Pro, 128 GB · 720 €</div>
+                <div style="display: flex; align-items: flex-end; gap: 6px; color: #FFFFFF"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 56px; line-height: 58px; letter-spacing: -0.04em">4,2</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px; line-height: 30px; color: #2A3618">/5</span><span role="img" aria-label="4,2 od 5 zvjezdica" style="position: relative; display: inline-flex; gap: 3px; margin: 0 0 8px 10px"><span style="position: relative; display: block; width: 17px; height: 17px; flex-shrink: 0"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 17px; height: 17px; flex-shrink: 0"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 17px; height: 17px; flex-shrink: 0"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 17px; height: 17px; flex-shrink: 0"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 17px; height: 17px; flex-shrink: 0"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 25%; overflow: hidden"><svg width="17" height="17" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span></span></div>
+                <div style="font-size: 12px; font-weight: 600">Odličan oglas · bolji od 86 % sličnih</div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px"><span style="height: 6px; border-radius: 3px; background: #1A2410"></span><span style="height: 6px; border-radius: 3px; background: #1A2410"></span><span style="height: 6px; border-radius: 3px; background: #1A2410"></span><span style="height: 6px; border-radius: 3px; background: #1A2410"></span><span style="height: 6px; border-radius: 3px; background: linear-gradient(90deg, #1A2410 20%, rgba(26,36,16,.16) 20%)"></span></div>
+              <div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; background: #BCD48F">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A2410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                <div style="font-size: 11px; line-height: 1.35"><div style="font-weight: 600">Verificiran prodavač</div><div style="color: #2A3618">Marko K. · Njuškalo</div></div>
+              </div>
+            </div>
+            <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+              <div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 15px">Što kažu kupci</span><span style="font-size: 11px; color: #6B7462">23 recenzije</span></div>
+              <div style="display: flex; gap: 10px">
+                <span style="width: 28px; height: 28px; border-radius: 9999px; background: #CBE7F6; color: #1F4D68; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">AK</span>
+                <div style="font-size: 12px; line-height: 1.45"><div><span style="font-weight: 600">Ana K.</span> <span style="font-size: 10px; font-weight: 600; background: #E6F0EB; color: #34574A; padding: 1px 6px; border-radius: 9999px">5 ★</span></div>Sve točno kako piše u opisu. Preuzimanje bez problema.</div>
+              </div>
+              <div style="display: flex; gap: 10px">
+                <span style="width: 28px; height: 28px; border-radius: 9999px; background: #FFE7A6; color: #5E4400; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">IP</span>
+                <div style="font-size: 12px; line-height: 1.45"><div><span style="font-weight: 600">Ivan P.</span> <span style="font-size: 10px; font-weight: 600; background: #E6F0EB; color: #34574A; padding: 1px 6px; border-radius: 9999px">4 ★</span></div>Brzo odgovara, cijena se dala dogovoriti.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXTENSION SHOWCASE -->
+<section style="position: relative; overflow: hidden; padding: 24px 24px 96px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M40 100 H160 M128 68 L160 100 L128 132"></path><path d="M40 60 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 z"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; background: #F6F6F1; border-radius: 32px; padding: 64px 48px; display: flex; flex-direction: column; gap: 40px">
+    <div style="max-width: 680px">
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(24px, 3.33vw, 48px); line-height: 1.04; letter-spacing: -0.03em">Jedan oglas. Dva prozora.</h2>
+      <p style="margin: 16px 0 0; font-size: 19px; line-height: 1.6; color: #4D5645">Prvi prozor ocjenjuje oglas. Povuci ga ulijevo i vidiš prodavača: koliko dugo prodaje, kakve cijene daje i što još prodaje.</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 28px">
+
+      <div style="display: flex; flex-direction: column; gap: 12px; align-items: center">
+        <div style="width: 320px; border-radius: 16px; overflow: hidden; background: #FFFFFF; box-shadow: 0 2px 6px rgba(26,36,16,.08), 0 18px 44px rgba(26,36,16,.14)">
+          <div style="background: #A6C36F; color: #1A2410; padding: 14px 16px 20px 18px; display: flex; flex-direction: column; gap: 14px">
+            <div style="display: flex; align-items: center; justify-content: space-between">
+              <div style="display: flex; align-items: center; gap: 8px"><span style="width: 26px; height: 26px; border-radius: 7px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" fill="#fff" stroke="#1A2410" stroke-width="2.6"></circle><path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"></path><polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56"></polygon></svg></span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 16px">Vrijedi.Ly</span></div>
+              <span style="font-size: 12px; font-weight: 600; border: 1px solid rgba(26,36,16,.25); border-radius: 9999px; padding: 5px 11px">Prodavač ›</span>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: #2A3618">iPhone 14 Pro, 128 GB · 720 €</div>
+              
+              <div style="display: flex; align-items: flex-end; gap: 6px; color: #FFFFFF"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 64px; line-height: 64px; letter-spacing: -0.04em">4,2</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 20px; line-height: 32px; color: #2A3618">/5</span><span role="img" aria-label="4,2 od 5 zvjezdica" style="position: relative; display: inline-flex; gap: 3px; margin: 0 0 9px 10px"><span style="position: relative; display: block; width: 20px; height: 20px; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 20px; height: 20px; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 20px; height: 20px; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 20px; height: 20px; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; overflow: hidden"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span><span style="position: relative; display: block; width: 20px; height: 20px; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></polygon></svg><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 25%; overflow: hidden"><svg width="20" height="20" viewBox="0 0 24 24" style="display: block" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#FFCF56" stroke="#FFCF56" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></span></span></span></div><div style="font-size: 13px; font-weight: 600; padding-top: 2px">Odličan oglas · bolji od 86 % sličnih</div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px"><span style="height: 7px; border-radius: 3px; background: #1A2410"></span><span style="height: 7px; border-radius: 3px; background: #1A2410"></span><span style="height: 7px; border-radius: 3px; background: #1A2410"></span><span style="height: 7px; border-radius: 3px; background: #1A2410"></span><span style="height: 7px; border-radius: 3px; background: linear-gradient(90deg, #1A2410 20%, rgba(26,36,16,.16) 20%)"></span></div>
+            <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #BCD48F">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A2410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              <div style="font-size: 12px; line-height: 1.4"><div style="font-weight: 600">Verificiran prodavač</div><div style="color: #2A3618">Marko K. · Njuškalo</div></div>
+            </div>
+          </div>
+          <div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px">
+            <div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 17px">Što kažu kupci</span><span style="font-size: 12px; color: #6B7462">23 recenzije</span></div>
+            <div style="display: flex; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #E4E8DC">
+              <span style="width: 32px; height: 32px; border-radius: 9999px; background: #CBE7F6; color: #1F4D68; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">AK</span>
+              <div style="font-size: 13px; line-height: 1.5"><div><span style="font-weight: 600">Ana K.</span> <span style="font-size: 11px; font-weight: 600; background: #E6F0EB; color: #34574A; padding: 1px 7px; border-radius: 9999px">5 ★</span></div>Sve točno kako piše u opisu. Preuzimanje bez problema, preporučujem.</div>
+            </div>
+            <div style="display: flex; gap: 10px">
+              <span style="width: 32px; height: 32px; border-radius: 9999px; background: #FFE7A6; color: #5E4400; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0">IP</span>
+              <div style="font-size: 13px; line-height: 1.5"><div><span style="font-weight: 600">Ivan P.</span> <span style="font-size: 11px; font-weight: 600; background: #E6F0EB; color: #34574A; padding: 1px 7px; border-radius: 9999px">4 ★</span></div>Brzo odgovara. Cijena malo visoka, ali dalo se dogovoriti.</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 15px; font-weight: 600">Prozor 1 · ocjena oglasa</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; color: #708A40">
+        <svg width="72" height="32" viewBox="0 0 72 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M70 16 H4"></path><path d="M16 4 L4 16 L16 28"></path></svg>
+        <span style="font-size: 14px; font-weight: 600">povuci ulijevo</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; align-items: center">
+        <div style="width: 320px; border-radius: 16px; overflow: hidden; background: #FFFFFF; box-shadow: 0 2px 6px rgba(26,36,16,.08), 0 18px 44px rgba(26,36,16,.14)">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid #E4E8DC">
+            <span style="font-size: 16px; color: #4D5645">‹</span>
+            <span style="width: 22px; height: 22px; border-radius: 6px; box-shadow: inset 0 0 0 1px #E4E8DC; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" fill="#fff" stroke="#1A2410" stroke-width="2.6"></circle><path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"></path><polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56"></polygon></svg></span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 14px">Vrijedi.Ly</span><span style="font-size: 12px; color: #6B7462">· Njuškalo</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 16px">
+            <span style="width: 46px; height: 46px; border-radius: 9999px; background: #D3E3B4; color: #3E4F23; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0">M</span>
+            <div style="flex-grow: 1"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px">Marko K. <span style="color: #5B8E76; font-size: 15px">✓</span></div><div style="font-size: 12px; color: #6B7462">Član od 2019. · Zagreb · 12 oglasa</div></div>
+            <div style="text-align: right"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px"><span style="color: #E5AE24; font-size: 15px">★</span> 4,8</div><div style="font-size: 10px; color: #6B7462">46 recenzija</div></div>
+          </div>
+          <div style="margin: 0 12px; padding: 14px; border-radius: 16px; background: #A6C36F; color: #1A2410; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+            <div><div style="font-size: 10px; color: #2A3618">Cijene</div><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 19px">Fer</div><div style="font-size: 10px; color: #2A3618">−3 % vs. tržište</div></div>
+            <div style="padding-left: 10px; border-left: 1px solid rgba(26,36,16,.2)"><div style="font-size: 10px; color: #2A3618">Prevara</div><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 19px">Nema</div><div style="font-size: 10px; color: #2A3618">0 prijava</div></div>
+            <div style="padding-left: 10px; border-left: 1px solid rgba(26,36,16,.2)"><div style="font-size: 10px; color: #2A3618">Odgovara</div><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 19px">15 min</div><div style="font-size: 10px; color: #2A3618">u 96 % poruka</div></div>
+          </div>
+          <div style="padding: 14px 16px 6px; display: flex; justify-content: space-between; align-items: baseline"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 15px">Njegovi oglasi</span><span style="font-size: 11px; color: #6B7462">cijena · tržište</span></div>
+          <div style="padding: 0 16px 6px">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 54px 44px; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #E4E8DC"><div><div style="font-size: 12px; font-weight: 600">AirPods Pro 2</div><div style="font-size: 10px; color: #6B7462">tržište 165 €</div></div><span style="font-size: 12px; font-weight: 600; text-align: right">150 €</span><span style="font-size: 10px; font-weight: 600; text-align: center; padding: 2px 0; border-radius: 9999px; background: #E6F0EB; color: #22392F">−9 %</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 54px 44px; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #E4E8DC"><div><div style="font-size: 12px; font-weight: 600">iPad Air 5, 64 GB</div><div style="font-size: 10px; color: #6B7462">tržište 420 €</div></div><span style="font-size: 12px; font-weight: 600; text-align: right">410 €</span><span style="font-size: 10px; font-weight: 600; text-align: center; padding: 2px 0; border-radius: 9999px; background: #E3F2FB; color: #1F4D68">−2 %</span></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 54px 44px; align-items: center; gap: 8px; padding: 8px 0"><div><div style="font-size: 12px; font-weight: 600">MacBook Air M1</div><div style="font-size: 10px; color: #6B7462">tržište 600 €</div></div><span style="font-size: 12px; font-weight: 600; text-align: right">620 €</span><span style="font-size: 10px; font-weight: 600; text-align: center; padding: 2px 0; border-radius: 9999px; background: #FFF5D9; color: #5E4400">+3 %</span></div>
+          </div>
+          <div style="padding: 10px 14px 14px"><div style="height: 40px; border-radius: 9999px; background: #A6C36F; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px">Analiziraj poruke</div></div>
+        </div>
+        <div style="font-size: 15px; font-weight: 600">Prozor 2 · prodavač</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="kako" style="padding: 0 24px 40px">
+  <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px">
+    <div style="border-top: 1px solid #E4E8DC; padding-top: 22px"><div style="font-weight: 600; font-size: 19px; padding-bottom: 6px">Instaliraš jednom</div><div style="font-size: 17px; line-height: 1.5; color: #4D5645">Nekoliko sekundi. Bez registracije, bez kartice.</div></div>
+    <div style="border-top: 1px solid #E4E8DC; padding-top: 22px"><div style="font-weight: 600; font-size: 19px; padding-bottom: 6px">Otvoriš oglas kao i inače</div><div style="font-size: 17px; line-height: 1.5; color: #4D5645">Na Njuškalu, Index oglasima ili Facebook Marketplaceu.</div></div>
+    <div style="border-top: 1px solid #E4E8DC; padding-top: 22px"><div style="font-weight: 600; font-size: 19px; padding-bottom: 6px">Odgovor stoji uz cijenu</div><div style="font-size: 17px; line-height: 1.5; color: #4D5645">Klikneš malu oznaku i vidiš je li cijena fer, tko prodaje i je li poruka čista. Prije nego se javiš.</div></div>
+  </div>
+</section>
+
+<!-- SIX QUESTIONS HEADER -->
+<section id="pitanja" style="position: relative; overflow: hidden; padding: 120px 24px 56px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M62 62 C62 28 138 28 138 66 C138 96 100 98 100 128"></path><circle cx="100" cy="160" r="5"></circle>
+      <path d="M30 40 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 z"></path><path d="M170 120 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto">
+    <div style="max-width: 620px">
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(30px, 4.17vw, 60px); line-height: 1.02; letter-spacing: -0.03em">Šest pitanja koja si postaviš prije nego platiš.</h2>
+      <p style="margin: 18px 0 0; font-size: 19px; line-height: 1.6; color: #4D5645">Rabljeno ne mora biti mačak u vreći. Vrijedi.Ly odgovori na svako pitanje, na samom oglasu. Svi oglasi na ovoj stranici su primjeri.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Q1 · text left, card right -->
+<section style="position: relative; overflow: hidden; padding: 72px 24px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% - 600px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <rect x="45" y="25" width="110" height="150" rx="12"></rect><path d="M68 62 H132 M68 88 H132 M68 114 H112"></path><path d="M110 146 l10 10 l22 -24"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 64px">
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; gap: 14px">
+      <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.015em">Što se zapravo prodaje?</h3>
+      <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4D5645">Vrijedi.Ly sažme opis i fotografije u tri rečenice i pokaže što nedostaje: IMEI, račun, jamstvo.<br>I gdje se opis i slike ne slažu — da znaš što pitati prije nego kreneš na preuzimanje.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Primjer: opis kaže „kao nov”, a treća fotografija pokazuje ogrebotinu na okviru.</p>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; background: #F6F6F1; border-radius: 28px; padding: 48px 32px; display: flex; justify-content: center">
+      <div style="width: 100%; max-width: 440px; background: #FFFFFF; border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(26,36,16,.06), 0 8px 24px rgba(26,36,16,.06); display: flex; flex-direction: column; gap: 12px">
+        <div style="font-weight: 600; font-size: 14px">Sažetak oglasa</div>
+        <p style="margin: 0; font-size: 13px; line-height: 1.55; color: #4D5645">iPhone 14 Pro, 128 GB, Deep Purple. Kupljen u studenom 2023., baterija 91 %. Kutija i kabel u kompletu. Osobno preuzimanje u Zagrebu ili slanje.</p>
+        <div style="font-size: 11px; color: #6B7462; padding-top: 4px">Nedostaje u oglasu</div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A2410" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>IMEI broj</div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A2410" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>Račun ili datum isteka jamstva</div>
+        <div style="display: flex; gap: 10px; background: #FFF5D9; border-radius: 12px; padding: 12px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A6400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+          <div style="font-size: 12px; line-height: 1.5; color: #3A2E0A"><div style="font-weight: 600">Opis i slike se ne slažu</div>Opis kaže „kao nov”. Fotografija 3 pokazuje ogrebotinu na okviru. Pitaj prodavača.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Q2 · card left, text right -->
+<section style="position: relative; overflow: hidden; padding: 72px 24px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M105 22 H172 V89 L98 163 L31 96 Z"></path><circle cx="148" cy="46" r="9"></circle><path d="M72 100 l30 -30 M86 114 l30 -30"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 64px">
+    <div style="flex: 1 1 420px; min-width: 0; background: #F6F6F1; border-radius: 28px; padding: 48px 32px; display: flex; justify-content: center">
+      <div style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(26,36,16,.06), 0 8px 24px rgba(26,36,16,.06); display: flex; flex-direction: column; gap: 12px">
+        <div style="align-self: flex-start; display: flex; gap: 10px; align-items: center; background: #FFCF56; border-radius: 12px; padding: 10px 14px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A2410" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" r=".5" fill="#1A2410"></circle></svg>
+          <div style="font-size: 12px; line-height: 1.3"><div style="font-weight: 600">Prostor za pregovor</div>Ponudi ~640 € · uštedi 80 €</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 12px"><span style="font-weight: 600">Tržišni raspon</span><span style="color: #6B7462">23 usporediva oglasa</span></div>
+        <div style="position: relative; padding-top: 28px">
+          <span style="position: absolute; right: 0; top: 0; background: #1A2410; color: #FFFFFF; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 9999px">Ovaj oglas · 720 €</span>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px">
+            <div style="height: 6px; border-radius: 9999px 0 0 9999px; background: #5B8E76"></div>
+            <div style="height: 6px; background: #6FB3DA"></div>
+            <div style="height: 6px; border-radius: 0 9999px 9999px 0; background: #E5AE24"></div>
+          </div>
+          <span style="position: absolute; left: 78%; bottom: -5px; width: 14px; height: 14px; margin-left: -7px; border-radius: 9999px; background: #FFFFFF; border: 3px solid #1A2410; box-sizing: border-box"></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #6B7462"><span>590 €</span><span>Prosjek 650 €</span><span>760 €</span></div>
+        <div style="font-size: 11px; font-weight: 600; color: #8A6400">11 % iznad prosjeka</div>
+        <div style="background: #F6F4E6; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+          <div style="font-size: 10px; color: #4E4A30">Predložena ponuda</div>
+          <div style="display: flex; align-items: baseline; gap: 8px"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px">640 €</span><span style="font-size: 11px; font-weight: 600; color: #8A6400">uštedi 80 €</span></div>
+          <div style="background: #FFFFFF; border-radius: 10px; padding: 10px; font-size: 12px; line-height: 1.5">Pozdrav! Zanima me iPhone. Bi li prihvatili 640 € uz preuzimanje danas u Zagrebu?</div>
+          <div style="display: flex; align-items: center; gap: 14px"><span style="background: #A6C36F; font-size: 11px; font-weight: 600; padding: 7px 14px; border-radius: 9999px">Kopiraj poruku</span><span style="font-size: 11px; color: #4D5645">Uredi</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; gap: 14px">
+      <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.015em">Je li cijena fer?</h3>
+      <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4D5645">Vrijedi.Ly usporedi oglas sa sličnima na Njuškalu, Indexu i Facebooku i pokaže koliko je iznad ili ispod prosjeka.<br>Ne voliš se cjenkati? Dobiješ gotovu poruku s ponudom. Samo je kopiraš.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Primjer: 23 slična oglasa, prosjek 650 €. Ovaj je 720 €. Ponudi 640 €.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Q3 · text left, card right -->
+<section style="position: relative; overflow: hidden; padding: 72px 24px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% - 600px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M100 22 L162 46 V98 C162 140 132 166 100 180 C68 166 38 140 38 98 V46 Z"></path><path d="M72 100 L94 122 L132 80"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 64px">
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; gap: 14px">
+      <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.015em">Mogu li vjerovati prodavaču?</h3>
+      <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4D5645">Bez guglanja imena i gledanja kad se registrirao. Ocjena dolazi od kupaca sa svih njegovih oglasa.<br>Vidiš i koliko dugo prodaje, koliko brzo odgovara i je li isti čovjek na Njuškalu i Facebooku.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Novi prodavač bez recenzija je nepoznat, ne sumnjiv. Vrijedi.Ly to tako i piše.</p>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; background: #F6F6F1; border-radius: 28px; padding: 48px 32px; display: flex; flex-direction: column; align-items: center; gap: 10px">
+      <div style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(26,36,16,.06), 0 8px 24px rgba(26,36,16,.06); display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <div style="width: 46px; height: 46px; border-radius: 9999px; background: #D3E3B4; color: #3E4F23; display: flex; align-items: center; justify-content: center; font-weight: 700">MK</div>
+          <div><div style="font-weight: 600; font-size: 15px">Marko K.</div><div style="font-size: 12px; color: #6B7462">Na Njuškalu od 2019. · Zagreb</div></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+          <div style="background: #F6F6F1; border-radius: 10px; padding: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px">4,8</div><div style="font-size: 10px; color: #6B7462">46 recenzija</div></div>
+          <div style="background: #F6F6F1; border-radius: 10px; padding: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px">~15 min</div><div style="font-size: 10px; color: #6B7462">vrijeme odgovora</div></div>
+          <div style="background: #F6F6F1; border-radius: 10px; padding: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px">126</div><div style="font-size: 10px; color: #6B7462">prodanih oglasa</div></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 12px">
+          <div style="display: flex; gap: 8px; align-items: center"><span style="color: #5B8E76; font-weight: 700">✓</span>Broj telefona provjeren</div>
+          <div style="display: flex; gap: 8px; align-items: center"><span style="color: #5B8E76; font-weight: 700">✓</span>Isti profil na Njuškalu i Facebooku</div>
+          <div style="display: flex; gap: 8px; align-items: center; color: #4D5645"><span style="font-weight: 700">ⓘ</span>Nema recenzija na Index oglasima</div>
+        </div>
+      </div>
+      <div style="width: 100%; max-width: 420px; background: #EEF0E8; border-radius: 12px; padding: 10px 14px; display: flex; gap: 10px; align-items: center">
+        <div style="width: 30px; height: 30px; border-radius: 9999px; background: #D3E3B4; color: #3E4F23; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0">AK</div>
+        <div style="font-size: 11px; line-height: 1.4"><span style="font-weight: 600">Ana K. · novi profil</span><br><span style="color: #4D5645">Još nema recenzija. To nije znak upozorenja.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Q4 · card left, text right -->
+<section style="position: relative; overflow: hidden; padding: 72px 24px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M16 100 C52 48 148 48 184 100 C148 152 52 152 16 100 Z"></path><circle cx="100" cy="100" r="28"></circle><circle cx="100" cy="100" r="9"></circle>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 64px">
+    <div style="flex: 1 1 420px; min-width: 0; background: #F6F6F1; border-radius: 28px; padding: 48px 32px; display: flex; justify-content: center">
+      <div style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(26,36,16,.06), 0 8px 24px rgba(26,36,16,.06); display: flex; flex-direction: column; gap: 12px">
+        <div style="font-weight: 600; font-size: 13px">Ocjena oglasa</div>
+        <div style="display: flex; align-items: center; gap: 12px"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 46px">4,6</span><div><div style="color: #E5AE24; font-size: 16px; letter-spacing: 2px">★★★★★</div><div style="font-size: 11px; color: #6B7462">6 recenzija kupaca koji su ga vidjeli uživo</div></div></div>
+        <div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) 16px; align-items: center; gap: 10px; font-size: 11px; color: #4D5645">
+          <span>Odgovara opisu</span><div style="height: 5px; border-radius: 9999px; background: #F1F3EC"><div style="width: 84%; height: 5px; border-radius: 9999px; background: #1A2410"></div></div><span style="text-align: right">5</span>
+          <span>Djelomično</span><div style="height: 5px; border-radius: 9999px; background: #F1F3EC"><div style="width: 16%; height: 5px; border-radius: 9999px; background: #1A2410"></div></div><span style="text-align: right">1</span>
+          <span>Ne odgovara</span><div style="height: 5px; border-radius: 9999px; background: #F1F3EC"></div><span style="text-align: right">0</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; font-size: 12px; font-weight: 500"><span style="width: 18px; height: 18px; border: 1.5px solid #5B8E76; border-radius: 5px; color: #5B8E76; font-size: 11px; display: flex; align-items: center; justify-content: center">✓</span>Kupci potvrđuju: oglas odgovara opisu</div>
+      </div>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; gap: 14px">
+      <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.015em">Je li oglas onakav kakvim se čini?</h3>
+      <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4D5645">Ti ga još nisi vidio. Drugi kupci jesu.<br>Ocjena oglasa dolazi od onih koji su ga vidjeli uživo. Ne ocjena prodavača — baš ovog oglasa.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Primjer: 6 kupaca ga je vidjelo uživo, 5 kaže „odgovara opisu”. Ocjena oglasa 4,6.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Q5 · text left, card right -->
+<section style="position: relative; overflow: hidden; padding: 72px 24px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% - 600px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M24 34 H128 Q140 34 140 46 V100 Q140 112 128 112 H64 L40 134 V112 H24 Q12 112 12 100 V46 Q12 34 24 34 Z"></path>
+      <polygon points="76,59 79.5,68.1 89.3,68.7 81.7,74.9 84.2,84.3 76,79 67.8,84.3 70.3,74.9 62.7,68.7 72.5,68.1"></polygon>
+      <path d="M84 132 H176 Q188 132 188 144 V174 Q188 186 176 186 H170 V198 L156 186 H96 Q84 186 84 174 Z"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 64px">
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; gap: 14px">
+      <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.015em">Što kažu oni koji su već pitali?</h3>
+      <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4D5645">Upozorenje o prodavaču obično nađeš na forumu — kad je već kasno.<br>Ovdje recenzija stoji na samom oglasu. Kupac napiše što je dobio, prodavač može odgovoriti.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Recenzija ostaje uz oglas i uz prodavača — i vidi je svaki sljedeći kupac.</p>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; background: #F6F6F1; border-radius: 28px; padding: 48px 32px; display: flex; justify-content: center">
+      <div style="width: 100%; max-width: 440px; background: #FFFFFF; border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(26,36,16,.06), 0 8px 24px rgba(26,36,16,.06); display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <div style="width: 34px; height: 34px; border-radius: 9999px; background: #D3E3B4; color: #3E4F23; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">IP</div>
+          <div style="flex-grow: 1"><div style="font-weight: 600; font-size: 14px">Ivana P.</div><div style="font-size: 11px; color: #6B7462">Kupila · 4. 10. 2026.</div></div>
+          <span style="font-size: 10px; font-weight: 600; background: #F1F3EC; padding: 3px 8px; border-radius: 6px">Provjereno</span>
+        </div>
+        <div style="font-size: 12px; font-weight: 600"><span style="color: #E5AE24; letter-spacing: 1px">★★★★★</span> Oglas odgovara opisu</div>
+        <p style="margin: 0; font-size: 13px; line-height: 1.55">Mobitel je točno kao na slikama, baterija 91 %. Prodavač je stigao na vrijeme i dopustio da ga provjerim prije plaćanja. Preporuka!</p>
+        <div style="background: #F6F4E6; border-radius: 10px; padding: 10px 12px; font-size: 12px; line-height: 1.5"><div style="font-size: 10px; color: #4E4A30">Odgovor prodavača · Marko K.</div>Hvala Ivana, bilo je zadovoljstvo!</div>
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: #4D5645"><span>Korisno (12)</span><span>Prijavi</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Q6 · card left, text right -->
+<section style="position: relative; overflow: hidden; padding: 72px 24px 120px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M24 30 H150 Q162 30 162 42 V104 Q162 116 150 116 H70 L44 140 V116 H24 Q12 116 12 104 V42 Q12 30 24 30 Z"></path>
+      <path d="M130 70 V150 Q130 186 98 186 Q72 186 72 160 L90 148"></path>
+      <path d="M30 188 L52 150 L74 188 Z M52 164 V174"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 64px">
+    <div style="flex: 1 1 420px; min-width: 0; background: #F6F6F1; border-radius: 28px; padding: 48px 32px; display: flex; justify-content: center">
+      <div style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(26,36,16,.06), 0 8px 24px rgba(26,36,16,.06); display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <div style="width: 30px; height: 30px; border-radius: 9999px; background: #D3E3B4; color: #3E4F23; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700">MK</div>
+          <div style="font-weight: 600; font-size: 13px">Marko K. · Njuškalo poruke</div>
+        </div>
+        <div style="background: #F1F3EC; border-radius: 14px 14px 14px 4px; padding: 12px; font-size: 12px; line-height: 1.5; max-width: 340px">Mobitel je rezerviran za vas. Pošaljite 580 € preko linka za sigurnu dostavu i šaljem odmah: njuskalo-dostava.com</div>
+        <div style="font-size: 10px; color: #6B7462">prije 2 min</div>
+        <div style="display: flex; gap: 10px; background: #FDECEA; border-radius: 12px; padding: 14px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B92D1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+          <div style="font-size: 12px; line-height: 1.5; color: #96220F"><div style="font-weight: 700; font-size: 13px">Ne plaćaj preko ovog linka</div>Cijena u poruci (580 €) nije cijena iz oglasa (720 €). Link nije Njuškalova dostava. Pitaj tko šalje mobitel.<div style="padding-top: 6px; font-weight: 600; text-decoration: underline">Prijavi prevaru</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; gap: 14px">
+      <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.015em">Je li ova poruka prevara?</h3>
+      <p style="margin: 0; font-size: 19px; line-height: 1.6; color: #4D5645">Poslije je uvijek očito. U trenutku se sve čini OK.<br>Vrijedi.Ly usporedi poruku s oglasom i upozori te na drugu cijenu, link za „sigurnu dostavu” ili pritisak da platiš unaprijed — prije nego klikneš.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B7462">Crveno vidiš samo uz dokaz. Uobičajena poruka ostaje uobičajena.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SELLERS -->
+<section id="prodavaci" style="position: relative; overflow: hidden; padding: 96px 24px; background: #F6F4E6">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M40 78 L100 48 L160 78 V148 L100 178 L40 148 Z"></path><path d="M40 78 L100 108 L160 78 M100 108 V178"></path><path d="M70 63 L130 93"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 64px">
+    <h2 style="flex: 1 1 420px; margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(23px, 3.19vw, 46px); line-height: 1.08; letter-spacing: -0.02em">Prodaješ?<br>Vrijedi.Ly je i na tvojoj strani.</h2>
+    <div style="flex: 1 1 420px; min-width: 0; max-width: 560px; display: flex; flex-direction: column; gap: 14px; font-size: 18px; line-height: 1.6; color: #343D2C">
+      <p style="margin: 0">Pošteni oglasi gube se među prevarama. Recenzije stvarnih kupaca pokažu da si stvaran — a na svaku možeš javno odgovoriti, uz oglas.</p>
+      <p style="margin: 0; color: #4D5645">Prije nego objaviš, vidiš je li tvoja cijena u tržišnom rasponu. Oglas bez recenzija je nepoznat, ne sumnjiv — i tako piše.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVERYTHING FOR 0 € -->
+<section style="position: relative; overflow: hidden; padding: 112px 24px 72px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <circle cx="80" cy="112" r="48"></circle><circle cx="128" cy="84" r="48"></circle><ellipse cx="80" cy="112" rx="14" ry="22"></ellipse>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto">
+    <h2 style="margin: 0 0 36px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(30px, 4.17vw, 60px); letter-spacing: -0.03em">Sve što dobiješ. 0 €.</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 64px">
+      <ul style="flex: 1 1 420px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; font-size: 18px">
+        <li style="display: flex; gap: 12px"><span style="color: #5B8E76; font-weight: 700">✓</span>Sažetak oglasa — i što mu nedostaje</li>
+        <li style="display: flex; gap: 12px"><span style="color: #5B8E76; font-weight: 700">✓</span>Usporedba cijena i gotova poruka s ponudom</li>
+        <li style="display: flex; gap: 12px"><span style="color: #5B8E76; font-weight: 700">✓</span>Ocjena prodavača sa svih njegovih oglasa</li>
+        <li style="display: flex; gap: 12px"><span style="color: #5B8E76; font-weight: 700">✓</span>Ocjena oglasa od kupaca koji su ga vidjeli</li>
+        <li style="display: flex; gap: 12px"><span style="color: #5B8E76; font-weight: 700">✓</span>Javne recenzije na svakom oglasu</li>
+        <li style="display: flex; gap: 12px"><span style="color: #5B8E76; font-weight: 700">✓</span>Provjera poruka prije nego platiš</li>
+      </ul>
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column">
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid #E4E8DC; font-size: 17px"><span style="color: #4D5645">Instalacija</span><span style="font-weight: 600">nekoliko sekundi</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid #E4E8DC; font-size: 17px"><span style="color: #4D5645">Registracija</span><span style="font-weight: 600">nema</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid #E4E8DC; font-size: 17px"><span style="color: #4D5645">Cijena</span><span style="font-weight: 600">0 €</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid #E4E8DC; font-size: 17px"><span style="color: #4D5645">Prva provjera</span><span style="font-weight: 600">na sljedećem oglasu koji otvoriš</span></div>
+        <a href="#" style="align-self: flex-start; margin-top: 24px; height: 52px; padding: 0 26px; border-radius: 9999px; background: #A6C36F; color: #1A2410; font-size: 17px; font-weight: 600; text-decoration: none; display: flex; align-items: center">Dodaj u Chrome — besplatno</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="position: relative; overflow: hidden; padding: 48px 24px 120px">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% - 600px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#8DAA55" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+      <path d="M30 40 H150 Q166 40 166 56 V112 Q166 128 150 128 H84 L56 154 V128 H30 Q14 128 14 112 V56 Q14 40 30 40 Z"></path>
+      <path d="M74 72 C74 56 106 56 106 74 C106 88 90 88 90 100"></path><circle cx="90" cy="114" r="3"></circle>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column">
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 64px; padding: 22px 0; border-top: 1px solid #E4E8DC"><div style="flex: 1 1 360px; font-weight: 600; font-size: 19px">Imam PayProtect zaštitu. Treba li mi i ovo?</div><div style="flex: 1 1 480px; font-size: 17px; line-height: 1.6; color: #4D5645">Zaštita ti vrati novac kad nešto pođe po zlu — i to ne za svaku kupnju. Vrijedi.Ly radi prije plaćanja, i na Facebooku i kad preuzimaš uživo.</div></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 64px; padding: 22px 0; border-top: 1px solid #E4E8DC"><div style="flex: 1 1 360px; font-weight: 600; font-size: 19px">Odakle Vrijedi.Ly zna cijene?</div><div style="flex: 1 1 480px; font-size: 17px; line-height: 1.6; color: #4D5645">Iz sličnih oglasa na Njuškalu, Indexu i Facebooku, ne s jedne stranice. S manje od pet usporedivih oglasa ne crta raspon, nego ti ponudi procjenu cijene.</div></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 64px; padding: 22px 0; border-top: 1px solid #E4E8DC"><div style="flex: 1 1 360px; font-weight: 600; font-size: 19px">Vidi li prodavač da ga provjeravam?</div><div style="flex: 1 1 480px; font-size: 17px; line-height: 1.6; color: #4D5645">Ne. Provjera je samo tvoja. Prodavač vidi samo recenziju koju mu javno ostaviš.</div></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 64px; padding: 22px 0; border-top: 1px solid #E4E8DC"><div style="flex: 1 1 360px; font-weight: 600; font-size: 19px">Što ako nema dovoljno podataka?</div><div style="flex: 1 1 480px; font-size: 17px; line-height: 1.6; color: #4D5645">Vrijedi.Ly kaže „nepoznato”, ne „sumnjivo”. Novi prodavač ili rijedak oglas nije znak upozorenja.</div></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px 64px; padding: 22px 0; border-top: 1px solid #E4E8DC; border-bottom: 1px solid #E4E8DC"><div style="flex: 1 1 360px; font-weight: 600; font-size: 19px">Čita li Vrijedi.Ly moje poruke?</div><div style="flex: 1 1 480px; font-size: 17px; line-height: 1.6; color: #4D5645">Samo poruke uz oglas koji si otvorio — i samo da ih usporedi s oglasom. Crveno vidiš isključivo uz dokaz.</div></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="position: relative; overflow: hidden; background: #1A2410; color: #FFFFFF; padding: 150px 24px 140px; text-align: center">
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% - 600px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#A6C36F" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+      <circle cx="85" cy="85" r="55"></circle><path d="M125 125 L178 178"></path>
+      <polygon points="85,57 92.1,75.3 111.6,76.3 96.4,88.7 101.5,107.7 85,97 68.5,107.7 73.6,88.7 58.4,76.3 77.9,75.3"></polygon>
+    </g>
+  </svg>
+  <svg viewBox="0 0 200 200" aria-hidden="true" style="position: absolute; z-index: 0; pointer-events: none; left: calc(50% + 330px); bottom: 40px; width:260px; height:260px;">
+    <g fill="none" stroke="#A6C36F" stroke-width="1.231" stroke-linecap="round" stroke-linejoin="round" opacity="0.35">
+      <path d="M105 22 H172 V89 L98 163 L31 96 Z"></path><circle cx="148" cy="46" r="9"></circle>
+      <path d="M40 40 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 z"></path>
+    </g>
+  </svg>
+  <div style="position: relative; z-index: 1; max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 26px">
+    <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(36px, 5.00vw, 72px); line-height: 1.02; letter-spacing: -0.035em">Sljedeći oglas koji otvoriš — provjeri ga.</h2>
+    <a href="#" style="height: 52px; padding: 0 28px; border-radius: 9999px; background: #A6C36F; color: #1A2410; font-size: 17px; font-weight: 600; text-decoration: none; display: flex; align-items: center">Dodaj u Chrome — besplatno</a>
+    <p style="margin: 0; font-size: 15px; color: #B1B9A4">Besplatno za kupce. Radi odmah, bez registracije.</p>
+  </div>
+</section>
+<footer style="background: #1A2410; color: #B1B9A4; padding: 24px; border-top: 1px solid #26301E">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; font-size: 14px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span style="width: 26px; height: 26px; border-radius: 7px; background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" fill="#fff" stroke="#1A2410" stroke-width="2.6"></circle><path d="M15.6 15.6 21 21" stroke="#1A2410" stroke-width="2.8" stroke-linecap="round"></path><polygon points="10.5 6.6 11.62 9.06 14.3 9.36 12.31 11.19 12.85 13.84 10.5 12.5 8.15 13.84 8.69 11.19 6.7 9.36 9.38 9.06" fill="#FFCF56"></polygon></svg></span>
+      © 2026 Vrijedi.Ly · Zagreb
+    </div>
+    <nav style="display: flex; flex-wrap: wrap; gap: 24px">
+      <a href="#" style="color: #B1B9A4; text-decoration: none">Privatnost</a>
+      <a href="#" style="color: #B1B9A4; text-decoration: none">Uvjeti</a>
+      <a href="#" style="color: #B1B9A4; text-decoration: none">Kontakt</a>
+      <a href="#prodavaci" style="color: #B1B9A4; text-decoration: none">Za prodavače</a>
+    </nav>
+  </div>
+</footer>
+</div>
+</body>
+</html>

@@ -71,3 +71,7 @@ src/
 **Kad Leonardov API bude gotov:** zamijeni tijela `getListingInsights` i `getSellerInsights` s `fetch()` pozivima; ostatak koda ne treba mijenjati.
 
 Više o projektu: [PROJECT_BRAIN.md](PROJECT_BRAIN.md) · dizajn: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+
+## Landing stranica
+
+`landing/index.html` je statična stranica bez build koraka (samo HTML i inline stilovi, fontovi s Google Fonts). Otvori je izravno u pregledniku ili je posluži s bilo kojeg statičnog hostinga (GitHub Pages, Netlify, Vercel). Dizajn je verzija A s platna „Vrijedi.Ly Landing”.
