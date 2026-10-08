@@ -43,7 +43,7 @@ export function renderSeller(profile, insights) {
         })
         .join('')
     : profile.needsProfileVisit && s.profileUrl
-      ? `<div class="empty">${esc(platform)} ne prikazuje ostale oglase na stranici oglasa. Otvori profil prodavača — Shaker će zapamtiti njegove oglase i pokazati ih ovdje kad se vratiš.
+      ? `<div class="empty">${esc(platform)} ne prikazuje ostale oglase na stranici oglasa. Otvori profil prodavača — Vrijedi.Ly će zapamtiti njegove oglase i pokazati ih ovdje kad se vratiš.
           <a class="ghost-link" href="${esc(s.profileUrl)}" target="_top">Prikaži njegove oglase ${icon('chevronRight', 16)}</a></div>`
       : `<div class="empty">${
           profile.limited
@@ -56,7 +56,7 @@ export function renderSeller(profile, insights) {
     <div class="topbar light">
       <div class="row gap8">
         <button class="icon-btn" data-go="0" aria-label="Natrag na oglas">${icon('chevronLeft', 20)}</button>
-        ${logo(24)}<span class="brand small">Shaker</span><span class="muted">· ${esc(platform)}</span>
+        ${logo(24)}<span class="brand small">Vrijedi.Ly</span><span class="muted">· ${esc(platform)}</span>
       </div>
       <button class="icon-btn" data-close aria-label="Zatvori">${icon('x', 20)}</button>
     </div>

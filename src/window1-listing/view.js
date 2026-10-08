@@ -31,7 +31,7 @@ export function renderListing(listing, insights) {
   <section class="slide" aria-label="Ocjena oglasa">
     <div class="hero">
       <div class="topbar">
-        <div class="row gap8">${logo()}<span class="brand">Shaker</span></div>
+        <div class="row gap8">${logo()}<span class="brand">Vrijedi.Ly</span></div>
         <div class="row gap4">
           <button class="ghost-pill" data-go="1">Prodavač ${icon('chevronRight', 16)}</button>
           <button class="icon-btn on-dark" data-close aria-label="Zatvori">${icon('x', 20)}</button>

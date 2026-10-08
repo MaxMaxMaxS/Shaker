@@ -1,9 +1,9 @@
-# Shaker — Chrome ekstenzija
+# Vrijedi.Ly — Chrome ekstenzija
 
 Ocjena oglasa, provjera prodavača i pomoć pri pregovoru na **Njuškalu**, **Index oglasima** i **Facebook Marketplaceu**.
 Na stranici oglasa otvara se panel: **prozor 1** (oglas) → povuci ulijevo → **prozor 2** (prodavač).
 
-> Ocjena 1–10, recenzije, tržišne cijene i procjena prevare su zasad **demo podaci** — dolaze s Shaker platforme koja je u izradi.
+> Ocjena 1–10, recenzije, tržišne cijene i procjena prevare su zasad **demo podaci** — dolaze s Vrijedi.Ly platforme koja je u izradi.
 
 ## Instalacija (za testere)
 
@@ -13,7 +13,7 @@ Na stranici oglasa otvara se panel: **prozor 1** (oglas) → povuci ulijevo → 
 4. Klikni **Load unpacked** i odaberi raspakiranu mapu (onu u kojoj je `manifest.json`).
 5. Otvori bilo koji oglas na Njuškalu, Index oglasima ili Facebook Marketplaceu — panel se pojavi gore desno.
 
-**Nova verzija:** raspakiraj novi zip preko stare mape i na `chrome://extensions` klikni ↻ kod Shakera.
+**Nova verzija:** raspakiraj novi zip preko stare mape i na `chrome://extensions` klikni ↻ kod Vrijedi.Ly ekstenzije.
 
 Facebook prikazuje prodavača samo prijavljenim korisnicima — bez prijave prozor 2 to i napiše.
 
