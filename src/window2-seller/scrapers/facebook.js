@@ -1,10 +1,11 @@
 // Window 2 · Facebook seller. No extra requests at all (Facebook's terms forbid automated collection, and
-// the seller profile needs a login anyway). We only read what the item page already contains — when logged
-// in that includes the seller and "More from this seller"; when logged out the result is `limited`.
+// the seller profile needs a login anyway). We read what the item page contains, plus the seller's other
+// listings remembered from the last time the user opened their profile (facebook-seller-cache.js).
 import { emptySellerProfile, $$ } from '../../shared/utils.js';
 import { pickDefined, readFacebookSellerFromPage, readFacebookSellerFromJson, facebookProfileUrl } from '../../shared/facebook-seller-dom.js';
+import { loadFacebookSellerListings } from '../facebook-seller-cache.js';
 
-export function scrapeFacebookSeller(listing) {
+export async function scrapeFacebookSeller(listing) {
   const out = emptySellerProfile('facebook', listing.seller);
   // The seller block often renders after window 1 was built; read it again now.
   Object.assign(out.seller, pickDefined(readFacebookSellerFromJson(listing.listingId), out.seller));
@@ -39,6 +40,12 @@ export function scrapeFacebookSeller(listing) {
       }
       for (const v of Object.values(n)) if (v && typeof v === 'object') stack.push(v);
     }
+  }
+  // The item page almost never carries them; use what we saw on the seller's profile, if anything.
+  if (!out.listings.length) {
+    const cached = await loadFacebookSellerListings(sellerId);
+    if (cached) out.listings = cached.listings.filter((l) => l.id !== listing.listingId);
+    else out.needsProfileVisit = true; // window 2 offers "open their profile" instead of an empty list
   }
   out.activeListings = out.listings.length || null;
   return out;

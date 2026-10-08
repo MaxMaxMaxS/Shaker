@@ -5,6 +5,7 @@ import { scrapeListing } from './window1-listing/scrape.js';
 import { getListingInsights } from './window1-listing/insights.js';
 import { scrapeSeller } from './window2-seller/scrape.js';
 import { getSellerInsights } from './window2-seller/insights.js';
+import { captureFacebookProfileListings } from './window2-seller/facebook-seller-cache.js';
 import { mountPanel } from './panel/panel.js';
 
 // Prototype only: production ships the woff2 files with the extension (DESIGN_SYSTEM.md §5).
@@ -42,6 +43,12 @@ async function run() {
   });
 }
 
-run();
+function tick() {
+  run();
+  // On a Facebook seller profile, remember their listings for window 2 (see facebook-seller-cache.js).
+  if (location.hostname.endsWith('facebook.com')) captureFacebookProfileListings().catch(() => {});
+}
+
+tick();
 // Facebook and Index are SPAs: the URL changes without a page load.
-setInterval(run, 800);
+setInterval(tick, 800);

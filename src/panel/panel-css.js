@@ -104,7 +104,9 @@ button { cursor: pointer; }
 .diff { font-size: 11px; font-weight: 600; text-align: center; padding: 3px 0; border-radius: 9999px; }
 .diff.good { background: var(--sage-100); color: var(--sage-900); } .diff.fair { background: var(--icy-100); color: var(--icy-800); }
 .diff.high { background: var(--pollen-100); color: var(--pollen-800); } .diff.none { background: var(--ink-50); color: var(--ink-500); }
-.empty { font-size: 13px; color: var(--ink-600); padding: 12px 0; }
+.empty { font-size: 13px; line-height: 1.5; color: var(--ink-600); padding: 12px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.ghost-link { display: inline-flex; align-items: center; gap: 2px; height: 40px; padding: 0 12px 0 16px; border-radius: 9999px; border: 1px solid var(--ink-200); color: var(--ink); font-size: 13px; font-weight: 600; text-decoration: none; }
+.ghost-link:hover { background: var(--ink-50); }
 .footer.light { padding: 12px 16px 16px; }
 .dashed-btn { width: 48px; height: 48px; border: 1.5px dashed var(--ink-400); border-radius: 9999px; background: #fff; color: var(--ink-700); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .primary-btn { flex-grow: 1; height: 48px; border: none; border-radius: 9999px; background: var(--olive); color: var(--ink); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }

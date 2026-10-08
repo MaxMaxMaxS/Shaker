@@ -36,17 +36,20 @@ export function renderSeller(profile, insights) {
           const m = insights?.perListing[i];
           return `
       <a class="listing-row" href="${esc(l.url)}" target="_top">
-        <div class="min0"><div class="row-title">${esc(l.title)}</div><div class="muted small">tržište ${m ? esc(fmtPrice({ amount: m.marketPrice, currency: l.price?.currency })) : '—'}</div></div>
+        <div class="min0"><div class="row-title">${esc(l.title || 'Oglas bez naslova')}</div><div class="muted small">tržište ${m ? esc(fmtPrice({ amount: m.marketPrice, currency: l.price?.currency })) : '—'}</div></div>
         <span class="row-price">${esc(fmtPrice(l.price))}</span>
         ${diffChip(m?.diffPct)}
       </a>`;
         })
         .join('')
-    : `<div class="empty">${
-        profile.limited
-          ? `${esc(platform)} prikazuje prodavača i njegove oglase samo prijavljenim korisnicima.`
-          : 'Prodavač trenutno nema drugih aktivnih oglasa.'
-      }</div>`;
+    : profile.needsProfileVisit && s.profileUrl
+      ? `<div class="empty">${esc(platform)} ne prikazuje ostale oglase na stranici oglasa. Otvori profil prodavača — Shaker će zapamtiti njegove oglase i pokazati ih ovdje kad se vratiš.
+          <a class="ghost-link" href="${esc(s.profileUrl)}" target="_top">Prikaži njegove oglase ${icon('chevronRight', 16)}</a></div>`
+      : `<div class="empty">${
+          profile.limited
+            ? `${esc(platform)} prikazuje prodavača i njegove oglase samo prijavljenim korisnicima.`
+            : 'Prodavač trenutno nema drugih aktivnih oglasa.'
+        }</div>`;
 
   return `
   <section class="slide light" aria-label="Prodavač">
